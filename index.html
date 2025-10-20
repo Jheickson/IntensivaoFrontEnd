@@ -29,7 +29,7 @@
     }
 
     .container {
-      max-width: 1200px;
+      max-width: 2000px;
       margin: 0 auto;
       padding: 20px;
     }
@@ -73,15 +73,16 @@
     }
 
     .navigation {
-      flex: 1;
-      min-width: 250px;
+      width: 260px;
+      min-width: 220px;
       background-color: white;
-      border-radius: 10px;
+      border-radius: 0 10px 10px 0;
       padding: 1.5rem;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      position: sticky;
+      box-shadow: 2px 0 6px rgba(0, 0, 0, 0.08);
+      position: fixed; /* stick to the left */
+      left: 20px;
       top: 20px;
-      max-height: 80vh;
+      bottom: 20px;
       overflow-y: auto;
     }
 
@@ -114,8 +115,9 @@
     }
 
     .main-content {
-      flex: 3;
+      flex: 1 1 auto;
       min-width: 300px;
+      margin-left: 320px; /* leave space for fixed sidebar */
     }
 
     .section {
@@ -271,6 +273,14 @@
       .navigation {
         position: static;
         max-height: none;
+        width: auto;
+        min-width: 0;
+        border-radius: 10px;
+        left: auto;
+      }
+
+      .main-content {
+        margin-left: 0;
       }
 
       .demo-example {

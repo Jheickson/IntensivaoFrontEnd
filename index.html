@@ -139,6 +139,9 @@
       margin: 1rem 0;
       overflow-x: auto;
       font-family: 'Courier New', monospace;
+      /* Preserve formatting */
+      white-space: pre;
+      display: block;
     }
 
     .example {
@@ -223,6 +226,12 @@
       }
     }
   </style>
+  <!-- Prism.js for syntax highlighting -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js" defer></script>
 </head>
 
 <body>
@@ -257,20 +266,19 @@
             três tecnologias principais da web, junto com HTML e CSS.</p>
 
           <h3>Como adicionar JavaScript ao HTML:</h3>
-          <div class="code-block">
-            &lt;!-- Método 1: Inline --&gt;
-            &lt;button onclick="alert('Olá Mundo!')"&gt;Clique aqui&lt;/button&gt;
+          <pre class="code-block"><code class="language-markup">&lt;!-- Método 1: Inline --&gt;
+          &lt;button onclick="alert('Olá Mundo!')"&gt;Clique aqui&lt;/button&gt;
 
-            &lt;!-- Método 2: Interno --&gt;
-            &lt;script&gt;
-            function saudacao() {
-            alert('Olá Mundo!');
-            }
-            &lt;/script&gt;
+&lt;!-- Método 2: Interno --&gt;
+&lt;script&gt;
+function saudacao() {
+alert('Olá Mundo!');
+}
+&lt;/script&gt;
 
-            &lt;!-- Método 3: Externo (recomendado) --&gt;
-            &lt;script src="script.js"&gt;&lt;/script&gt;
-          </div>
+&lt;!-- Método 3: Externo (recomendado) --&gt;
+&lt;script src="script.js"&gt;&lt;/script&gt;
+</code></pre>
 
           <div class="example">
             <h4>Exemplo Interativo:</h4>
@@ -286,16 +294,15 @@
               class="highlight">var</span>, <span class="highlight">let</span> ou <span class="highlight">const</span>.
           </p>
 
-          <div class="code-block">
-            // Declaração de variáveis
-            var nome = "João"; // Forma antiga (escopo de função)
-            let idade = 25; // Forma moderna (escopo de bloco)
-            const PI = 3.14159; // Constante (não pode ser reatribuída)
+          <pre class="code-block"><code class="language-javascript">// Declaração de variáveis
+          var nome = "João"; // Forma antiga (escopo de função)
+          let idade = 25; // Forma moderna (escopo de bloco)
+          const PI = 3.14159; // Constante (não pode ser reatribuída)
 
-            // Reatribuição de valores
-            idade = 26; // Válido
-            // PI = 3.14; // Erro! Constante não pode ser reatribuída
-          </div>
+// Reatribuição de valores
+idade = 26; // Válido
+// PI = 3.14; // Erro! Constante não pode ser reatribuída
+</code></pre>
 
           <div class="interactive-demo">
             <h4>Demonstração de Variáveis:</h4>
@@ -311,24 +318,23 @@
           <p>JavaScript tem tipos de dados dinâmicos, o que significa que uma mesma variável pode conter diferentes
             tipos de dados.</p>
 
-          <div class="code-block">
-            // Tipos primitivos
-            let texto = "Olá Mundo"; // String
-            let numero = 42; // Number
-            let decimal = 3.14; // Number
-            let booleano = true; // Boolean
-            let nulo = null; // Null
-            let indefinido = undefined; // Undefined
-            let simbolo = Symbol('id'); // Symbol (ES6)
+          <pre class="code-block"><code class="language-javascript">// Tipos primitivos
+          let texto = "Olá Mundo"; // String
+          let numero = 42; // Number
+          let decimal = 3.14; // Number
+          let booleano = true; // Boolean
+          let nulo = null; // Null
+          let indefinido = undefined; // Undefined
+          let simbolo = Symbol('id'); // Symbol (ES6)
 
-            // Tipo objeto
-            let pessoa = { // Object
-            nome: "Maria",
-            idade: 30
-            };
+// Tipo objeto
+let pessoa = { // Object
+nome: "Maria",
+idade: 30
+};
 
-            let frutas = ["maçã", "banana", "laranja"]; // Array
-          </div>
+let frutas = ["maçã", "banana", "laranja"]; // Array
+</code></pre>
 
           <div class="interactive-demo">
             <h4>Verificar Tipo de Dado:</h4>
@@ -346,33 +352,31 @@
             baseado em condições.</p>
 
           <h3>Operadores:</h3>
-          <div class="code-block">
-            // Aritméticos
-            let soma = 10 + 5; // 15
-            let subtracao = 10 - 5; // 5
-            let multiplicacao = 10 * 5; // 50
-            let divisao = 10 / 5; // 2
-            let resto = 10 % 3; // 1
+          <pre class="code-block"><code class="language-javascript">// Aritméticos
+          let soma = 10 + 5; // 15
+          let subtracao = 10 - 5; // 5
+          let multiplicacao = 10 * 5; // 50
+          let divisao = 10 / 5; // 2
+          let resto = 10 % 3; // 1
 
-            // Comparação
-            let igual = 5 == "5"; // true (valor igual)
-            let estritamenteIgual = 5 === "5"; // false (valor e tipo iguais)
-            let diferente = 5 != "5"; // false
-            let maiorQue = 10 > 5; // true
+// Comparação
+let igual = 5 == "5"; // true (valor igual)
+let estritamenteIgual = 5 === "5"; // false (valor e tipo iguais)
+let diferente = 5 != "5"; // false
+let maiorQue = 10 > 5; // true
 
-            // Lógicos
-            let e = (5 > 3) && (10 > 5); // true
-            let ou = (5 > 10) || (10 > 5); // true
-          </div>
+// Lógicos
+let e = (5 > 3) && (10 > 5); // true
+let ou = (5 > 10) || (10 > 5); // true
+</code></pre>
 
           <h3>Condicionais:</h3>
-          <div class="code-block">
-            // if/else
-            let hora = 14;
+          <pre class="code-block"><code class="language-javascript">// if/else
+          let hora = 14;
 
-            if (hora < 12) { console.log("Bom dia!"); } else if (hora < 18) { console.log("Boa tarde!"); } else {
-              console.log("Boa noite!"); } // Operador ternário let mensagem=(hora < 18) ? "Bom dia!" : "Boa noite!" ;
-              </div>
+if (hora < 12) { console.log("Bom dia!"); } else if (hora < 18) { console.log("Boa tarde!"); } else { console.log("Boa
+  noite!"); } // Operador ternário let mensagem=(hora < 18) ? "Bom dia!" : "Boa noite!" ; </code>
+  </pre>
 
               <div class="interactive-demo">
                 <h4>Verificador de Idade:</h4>
@@ -388,25 +392,24 @@
           <h2>Funções</h2>
           <p>Funções são blocos de código reutilizáveis que executam uma tarefa específica.</p>
 
-          <div class="code-block">
-            // Declaração de função
-            function saudacao(nome) {
+          <pre class="code-block"><code class="language-javascript">// Declaração de função
+          function saudacao(nome) {
             return "Olá, " + nome + "!";
-            }
+          }
 
-            // Expressão de função
-            const multiplicar = function(a, b) {
-            return a * b;
-            };
+// Expressão de função
+const multiplicar = function(a, b) {
+return a * b;
+};
 
-            // Arrow function (ES6)
-            const dividir = (a, b) => a / b;
+// Arrow function (ES6)
+const dividir = (a, b) => a / b;
 
-            // Chamando funções
-            let mensagem = saudacao("Ana"); // "Olá, Ana!"
-            let produto = multiplicar(5, 3); // 15
-            let quociente = dividir(10, 2); // 5
-          </div>
+// Chamando funções
+let mensagem = saudacao("Ana"); // "Olá, Ana!"
+let produto = multiplicar(5, 3); // 15
+let quociente = dividir(10, 2); // 5
+</code></pre>
 
           <div class="interactive-demo">
             <h4>Calculadora Simples:</h4>
@@ -430,23 +433,22 @@
           <p>Eventos são ações que ocorrem no navegador, como cliques, movimentos do mouse, pressionamento de teclas,
             etc. Podemos usar JavaScript para responder a esses eventos.</p>
 
-          <div class="code-block">
-            // Métodos para adicionar eventos
+          <pre class="code-block"><code class="language-javascript">// Métodos para adicionar eventos
 
-            // 1. Atributo HTML
-            // &lt;button onclick="minhaFuncao()"&gt;Clique&lt;/button&gt;
+// 1. Atributo HTML
+// &lt;button onclick="minhaFuncao()"&gt;Clique&lt;/button&gt;
 
-            // 2. Propriedade do elemento
-            let btn = document.getElementById("meuBotao");
-            btn.onclick = function() {
-            alert("Botão clicado!");
-            };
+// 2. Propriedade do elemento
+let btn = document.getElementById("meuBotao");
+btn.onclick = function() {
+alert("Botão clicado!");
+};
 
-            // 3. addEventListener (recomendado)
-            btn.addEventListener("click", function() {
-            alert("Botão clicado!");
-            });
-          </div>
+// 3. addEventListener (recomendado)
+btn.addEventListener("click", function() {
+alert("Botão clicado!");
+});
+</code></pre>
 
           <div class="interactive-demo">
             <h4>Área de Eventos:</h4>
@@ -466,29 +468,28 @@
           <p>O DOM é uma representação em forma de árvore da estrutura HTML de uma página. JavaScript pode manipular o
             DOM para alterar conteúdo, estilo e estrutura da página.</p>
 
-          <div class="code-block">
-            // Selecionando elementos
-            let titulo = document.getElementById("meuTitulo");
-            let paragrafos = document.getElementsByClassName("meuParagrafo");
-            let elementos = document.querySelectorAll("div.minhaClasse");
+          <pre class="code-block"><code class="language-javascript">// Selecionando elementos
+          let titulo = document.getElementById("meuTitulo");
+          let paragrafos = document.getElementsByClassName("meuParagrafo");
+          let elementos = document.querySelectorAll("div.minhaClasse");
 
-            // Alterando conteúdo
-            titulo.innerHTML = "Novo Título";
-            titulo.textContent = "Outro Título";
+// Alterando conteúdo
+titulo.innerHTML = "Novo Título";
+titulo.textContent = "Outro Título";
 
-            // Alterando estilos
-            titulo.style.color = "red";
-            titulo.style.fontSize = "24px";
+// Alterando estilos
+titulo.style.color = "red";
+titulo.style.fontSize = "24px";
 
-            // Adicionando/removendo classes
-            titulo.classList.add("destaque");
-            titulo.classList.remove("antigo");
+// Adicionando/removendo classes
+titulo.classList.add("destaque");
+titulo.classList.remove("antigo");
 
-            // Criando elementos
-            let novoParagrafo = document.createElement("p");
-            novoParagrafo.textContent = "Este é um novo parágrafo";
-            document.body.appendChild(novoParagrafo);
-          </div>
+// Criando elementos
+let novoParagrafo = document.createElement("p");
+novoParagrafo.textContent = "Este é um novo parágrafo";
+document.body.appendChild(novoParagrafo);
+</code></pre>
 
           <div class="interactive-demo">
             <h4>Manipulação do DOM:</h4>
@@ -511,49 +512,46 @@
             comuniquem. JSON (JavaScript Object Notation) é um formato leve de troca de dados, fácil para humanos lerem
             e escreverem, e para máquinas parsearem e gerarem.</p>
 
-          <div class="code-block">
-            // Exemplo de JSON
-            {
+          <pre class="code-block"><code class="language-json">{
             "usuarios": [
-            {
-            "id": 1,
-            "nome": "João Silva",
-            "email": "joao@exemplo.com"
-            },
-            {
-            "id": 2,
-            "nome": "Maria Santos",
-            "email": "maria@exemplo.com"
-            }
+              {
+                "id": 1,
+                "nome": "João Silva",
+                "email": "joao@exemplo.com"
+              },
+              {
+                "id": 2,
+                "nome": "Maria Santos",
+                "email": "maria@exemplo.com"
+              }
             ]
-            }
-          </div>
+          }
+</code></pre>
 
           <h3>Como usar o fetch()</h3>
           <p>A API Fetch fornece uma interface para buscar recursos (incluindo através da rede). É uma alternativa mais
             poderosa e flexível ao XMLHttpRequest.</p>
 
-          <div class="code-block">
-            // Requisição GET simples
-            fetch('https://api.exemplo.com/usuarios')
+          <pre class="code-block"><code class="language-javascript">// Requisição GET simples
+          fetch('https://api.exemplo.com/usuarios')
             .then(response => response.json())
             .then(data => console.log(data))
             .catch(error => console.error('Erro:', error));
 
-            // Requisição POST
-            fetch('https://api.exemplo.com/usuarios', {
-            method: 'POST',
-            headers: {
-            'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-            nome: 'Novo Usuário',
-            email: 'novo@exemplo.com'
-            })
-            })
-            .then(response => response.json())
-            .then(data => console.log(data));
-          </div>
+// Requisição POST
+fetch('https://api.exemplo.com/usuarios', {
+method: 'POST',
+headers: {
+'Content-Type': 'application/json'
+},
+body: JSON.stringify({
+nome: 'Novo Usuário',
+email: 'novo@exemplo.com'
+})
+})
+.then(response => response.json())
+.then(data => console.log(data));
+</code></pre>
         </section>
 
         <section id="fetch-example" class="section">

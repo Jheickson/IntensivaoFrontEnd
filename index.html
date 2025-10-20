@@ -1047,18 +1047,26 @@ fetch('https://api.exemplo.com/usuarios', {
   </footer>
 
   <script>
-    // Clean, working demo script
-
-    // Demonstração de Variáveis
+    // ===== Script de demonstrações (comentado para iniciantes) =====
+    /*
+      Demonstração de Variáveis
+      - Recupera o elemento de saída pelo id 'variables-output'
+      - Cria exemplos com var/let/const e mostra o resultado usando innerHTML
+    */
     function demonstrateVariables() {
+      // Pega a <div> onde vamos mostrar o resultado
       const output = document.getElementById('variables-output');
 
+      // Exemplos simples para demonstrar diferença entre var/let/const
       const varExemplo = 'Variável com var';
       let letExemplo = 'Variável com let';
       const constExemplo = 'Variável com const';
 
+      // Podemos reatribuir o let, mas não a const
       letExemplo = 'Novo valor para let';
 
+      // Monta um pequeno bloco HTML para exibir os valores
+      // NOTE: usamos innerHTML aqui apenas para fins didáticos
       output.innerHTML = `
         <p><strong>var:</strong> ${varExemplo}</p>
         <p><strong>let:</strong> ${letExemplo}</p>
@@ -1067,23 +1075,31 @@ fetch('https://api.exemplo.com/usuarios', {
       `.trim();
     }
 
-    // Verificar Tipo de Dado
+    /*
+      Verificar Tipo de Dado
+      - Lê o valor do input, tenta inferir se é number, boolean ou string
+      - Mostra o tipo identificado no elemento 'data-type-output'
+      Observação: detecção é intencionalmente simples para fins educativos.
+    */
     function checkDataType() {
       const rawValue = document.getElementById('data-type-input').value;
       const value = rawValue.trim();
       const output = document.getElementById('data-type-output');
 
+      // Entrada vazia -> consideramos string vazia (exemplo didático)
       if (value === '') {
         output.innerHTML = 'Entrada vazia é do tipo: <span style="color: #e74c3c;">string</span>';
         return;
       }
 
+      // Tenta converter para número; se não for NaN, tratamos como number
       if (!Number.isNaN(Number(value))) {
         const numberValue = Number(value);
         output.innerHTML = `<strong>${value}</strong> é do tipo: <span style="color: #e74c3c;">${typeof numberValue}</span>`;
         return;
       }
 
+      // Detecta boolean simples a partir de texto 'true'/'false'
       const lowered = value.toLowerCase();
       if (lowered === 'true' || lowered === 'false') {
         const bool = lowered === 'true';
@@ -1091,20 +1107,27 @@ fetch('https://api.exemplo.com/usuarios', {
         return;
       }
 
+      // Caso padrão: tratamos como string
       output.innerHTML = `<strong>${value}</strong> é do tipo: <span style="color: #e74c3c;">${typeof value}</span>`;
     }
 
-    // Verificar Idade
+    /*
+      Verificador de Idade
+      - Lê um número do input e classifica em faixas etárias
+      - Mostra mensagens de erro para entradas inválidas
+    */
     function checkAge() {
       const input = document.getElementById('age-input');
       const output = document.getElementById('age-output');
       const age = Number.parseInt(input.value, 10);
 
+      // Validação: se não for número, avisa o usuário
       if (Number.isNaN(age)) {
         output.innerHTML = 'Por favor, digite uma idade válida.';
         return;
       }
 
+      // Classificação por faixas etá         usando if/else
       if (age < 0) {
         output.innerHTML = 'Idade não pode ser negativa.';
       } else if (age < 13) {
@@ -1118,13 +1141,19 @@ fetch('https://api.exemplo.com/usuarios', {
       }
     }
 
-    // Calculadora
+    /*
+      Calculadora simples (operações básicas)
+      - Lê dois números e a operação selecionada
+      - Executa a operação e exibe o resultado
+      - Trata divisão por zero e entradas inválidas
+    */
     function calculate() {
       const num1 = Number.parseFloat(document.getElementById('num1').value);
       const num2 = Number.parseFloat(document.getElementById('num2').value);
       const operation = document.getElementById('operation').value;
       const output = document.getElementById('calculation-output');
 
+      // Validação dos números
       if (Number.isNaN(num1) || Number.isNaN(num2)) {
         output.innerHTML = 'Por favor, digite números válidos.';
         return;
@@ -1145,6 +1174,7 @@ fetch('https://api.exemplo.com/usuarios', {
           output.innerHTML = `${num1} × ${num2} = <strong>${result}</strong>`;
           break;
         case 'divide':
+          // Protege contra divisão por zero
           if (num2 === 0) {
             output.innerHTML = 'Erro: Divisão por zero!';
             return;
@@ -1157,59 +1187,81 @@ fetch('https://api.exemplo.com/usuarios', {
       }
     }
 
-    // Manipulação do DOM
+    /*
+      Manipulação do DOM (adicionar/alterar/remover elementos)
+      - addElement: cria um novo nó <div> com o texto do input e anexa ao output
+      - changeColor: altera a cor de fundo dos itens já adicionados
+      - clearElements: remove todo o conteúdo do container de saída
+    */
     function addElement() {
       const input = document.getElementById('dom-input');
       const output = document.getElementById('dom-output');
       const value = input.value.trim();
 
+      // Evita adicionar textos vazios
       if (value === '') {
         alert('Por favor, digite algum texto.');
         return;
       }
 
+      // Cria um novo elemento DOM e define seu conteúdo/texto
       const newElement = document.createElement('div');
       newElement.textContent = value;
       newElement.classList.add('dom-item');
 
+      // Adiciona o novo nó ao container de saída
       output.appendChild(newElement);
+      // Limpa o input para melhorar a experiência do usuário
       input.value = '';
     }
 
     function changeColor() {
       const output = document.getElementById('dom-output');
       const elements = output.querySelectorAll('.dom-item');
+      // Paleta de exemplo para alternar cores
       const colors = ['#e8f4fd', '#fff3cd', '#d1ecf1', '#d4edda', '#f8d7da'];
 
+      // Percorre os itens e aplica uma cor baseada no índice
       elements.forEach((element, index) => {
         element.style.backgroundColor = colors[index % colors.length];
       });
     }
 
     function clearElements() {
+      // Remove todo o HTML do container (forma simples de limpar)
       document.getElementById('dom-output').innerHTML = '';
     }
 
-    // Fetch API
+    /*
+      Fetch API (consumindo uma API pública)
+      - fetchData: monta a URL com base no endpoint selecionado, faz a requisição e mostra os primeiros itens
+      - clearApiResult: limpa o resultado
+      Observação: usamos then/catch para compatibilidade didática.
+    */
     function fetchData() {
       const endpoint = document.getElementById('api-endpoint').value;
       const apiUrl = `https://jsonplaceholder.typicode.com/${endpoint}`;
       const resultDiv = document.getElementById('api-result');
 
+      // Indica ao usuário que a requisição está em andamento
       resultDiv.innerHTML = 'Carregando...';
 
+      // Faz a requisição HTTP (GET)
       fetch(apiUrl)
         .then((response) => {
+          // Se o servidor respondeu com um status >= 400, trata como erro
           if (!response.ok) {
             throw new Error('Erro na requisição: ' + response.status);
           }
           return response.json();
         })
         .then((data) => {
+          // Para não poluir a tela, mostramos apenas os 5 primeiros itens quando for um array
           const limitedData = Array.isArray(data) ? data.slice(0, 5) : data;
           resultDiv.innerHTML = `<pre>${JSON.stringify(limitedData, null, 2)}</pre>`;
         })
         .catch((error) => {
+          // Mostra uma mensagem de erro para o usuário
           resultDiv.innerHTML = `Erro: ${error.message}`;
         });
     }
@@ -1218,26 +1270,29 @@ fetch('https://api.exemplo.com/usuarios', {
       document.getElementById('api-result').innerHTML = '';
     }
 
-    // Eventos e navegação
+    // Eventos e navegação (após o carregamento do DOM)
     document.addEventListener('DOMContentLoaded', function () {
-      // Events demo
+      // Seleciona elementos usados pelo demo de eventos
       const clickBtn = document.getElementById('click-btn');
       const keyInput = document.getElementById('key-input');
       const mouseArea = document.getElementById('mouse-area');
       const eventsOutput = document.getElementById('events-output');
 
+      // Adiciona um listener de clique
       if (clickBtn) {
         clickBtn.addEventListener('click', () => {
           if (eventsOutput) eventsOutput.innerHTML = 'Botão foi clicado!';
         });
       }
 
+      // Atualiza o texto conforme o usuário digita (evento input)
       if (keyInput) {
         keyInput.addEventListener('input', (event) => {
           if (eventsOutput) eventsOutput.innerHTML = `Você digitou: ${event.target.value}`;
         });
       }
 
+      // Muda o estilo quando o mouse entra/saida da área
       if (mouseArea) {
         mouseArea.addEventListener('mouseover', () => {
           mouseArea.style.backgroundColor = '#d4edda';
@@ -1250,19 +1305,20 @@ fetch('https://api.exemplo.com/usuarios', {
         });
       }
 
-      // Smooth navigation and active link highlight
+      // Navegação suave entre seções e destaque do link ativo
       const navLinks = document.querySelectorAll('.nav-link');
 
       navLinks.forEach(link => {
         link.addEventListener('click', function (e) {
           e.preventDefault();
 
-          // Remove active from all
+          // Remove a classe 'active' de todos os links
           navLinks.forEach(l => l.classList.remove('active'));
 
-          // Add active to clicked
+          // Adiciona 'active' ao link clicado
           this.classList.add('active');
 
+          // Faz scroll suave até a seção alvo
           const targetId = this.getAttribute('href');
           const targetSection = document.querySelector(targetId);
 
@@ -1275,6 +1331,7 @@ fetch('https://api.exemplo.com/usuarios', {
         });
       });
 
+      // Durante o scroll, atualiza qual seção está visível e marca o link correspondente
       window.addEventListener('scroll', function () {
         const sections = document.querySelectorAll('.section');
         let currentSection = '';
@@ -1298,26 +1355,44 @@ fetch('https://api.exemplo.com/usuarios', {
   <script>
     // Ensure the fixed sidebar never covers the header
     (function () {
+      // Este IIFE (Immediately Invoked Function Expression) faz um ajuste simples
+      // para que a barra lateral fixa (`.navigation`) nunca fique sobreposta ao <header>.
+      // Explicação resumida:
+      // - Calculamos a posição do header
+      // - Se o header estiver visível no topo, empurramos a nav para baixo
+      // - Recalculamos em load/resize/scroll para manter o comportamento responsivo
       const nav = document.querySelector('.navigation');
       const header = document.querySelector('header');
 
+      // Se algum dos elementos não ex        r (por exemplo durante testes), sai silenciosamente
       if (!nav || !header) return;
 
       function adjustNavTop() {
+        // getBoundingClientRect() retorna a posição do elemento relativa à viewport
         const headerRect = header.getBoundingClientRect();
-        // If header is visible at top of viewport, position nav below it
-        const headerBottom = Math.max(0, headerRect.bottom + window.scrollY);
-        const offset = window.scrollY <= headerRect.bottom ? headerRect.bottom + 10 : 20;
-        // compute top relative to document
+
+        // headerRect.bottom é a coordenada Y do fundo do header relativa à viewport.
+        // Somando window.scrollY obtemos a posição relativa ao documento.
+        const headerBottom = headerRect.bottom + window.scrollY;
+
+        // Se estivermos no topo da página (window.scrollY pequena), queremos posicionar
+        // a nav logo abaixo do header (headerBottom + 10). Se já rolamos para baixo, usamos
+        // um deslocamento mínimo (20px) para manter espaçamento do topo.
+        const offset = window.scrollY <= headerRect.bottom ? headerBottom + 10 : 20;
+
+        // Garante um valor mínimo para evitar colisões com a borda da janela
         const topValue = Math.max(20, offset);
+
+        // Atualiza a propriedade top da nav (em pixels)
         nav.style.top = topValue + 'px';
       }
 
-      // Run on load, scroll, and resize
+      // Recalcula em eventos que podem mudar posições (load, resize, scroll)
       window.addEventListener('load', adjustNavTop);
       window.addEventListener('resize', adjustNavTop);
       window.addEventListener('scroll', adjustNavTop);
-      // initial call
+
+      // Chamada inicial imediata para ajustar logo ao carregar o script
       adjustNavTop();
     })();
   </script>

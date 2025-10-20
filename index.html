@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript: Tornando a Página Viva</title>
+  <style>
+    :root {
+      --primary: #2c3e50;
+      --secondary: #3498db;
+      --accent: #e74c3c;
+      --light: #ecf0f1;
+      --dark: #2c3e50;
+      --success: #2ecc71;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--light);
+      color: var(--dark);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    header {
+      background-color: var(--primary);
+      color: white;
+      padding: 2rem 0;
+      text-align: center;
+      margin-bottom: 2rem;
+      border-radius: 0 0 10px 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    h2 {
+      color: var(--secondary);
+      margin: 1.5rem 0 1rem;
+      border-bottom: 2px solid var(--secondary);
+      padding-bottom: 0.5rem;
+    }
+
+    h3 {
+      color: var(--primary);
+      margin: 1rem 0 0.5rem;
+    }
+
+    .subtitle {
+      font-size: 1.2rem;
+      opacity: 0.8;
+    }
+
+    .content {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .navigation {
+      flex: 1;
+      min-width: 250px;
+      background-color: white;
+      border-radius: 10px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 20px;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    .navigation h3 {
+      margin-top: 0;
+    }
+
+    .nav-list {
+      list-style: none;
+    }
+
+    .nav-item {
+      margin-bottom: 0.5rem;
+    }
+
+    .nav-link {
+      display: block;
+      padding: 0.7rem 1rem;
+      background-color: var(--light);
+      color: var(--dark);
+      text-decoration: none;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      background-color: var(--secondary);
+      color: white;
+    }
+
+    .main-content {
+      flex: 3;
+      min-width: 300px;
+    }
+
+    .section {
+      background-color: white;
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .section:hover {
+      transform: translateY(-5px);
+    }
+
+    .code-block {
+      background-color: #2d2d2d;
+      color: #f8f8f2;
+      padding: 1rem;
+      border-radius: 5px;
+      margin: 1rem 0;
+      overflow-x: auto;
+      font-family: 'Courier New', monospace;
+    }
+
+    .example {
+      background-color: var(--light);
+      padding: 1rem;
+      border-radius: 5px;
+      margin: 1rem 0;
+      border-left: 4px solid var(--secondary);
+    }
+
+    .interactive-demo {
+      background-color: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+
+    .demo-controls {
+      display: flex;
+      gap: 1rem;
+      margin: 1rem 0;
+      flex-wrap: wrap;
+    }
+
+    button {
+      background-color: var(--secondary);
+      color: white;
+      border: none;
+      padding: 0.7rem 1.5rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    input,
+    select {
+      padding: 0.7rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      width: 100%;
+      max-width: 300px;
+    }
+
+    .api-result {
+      background-color: #2d2d2d;
+      color: #f8f8f2;
+      padding: 1rem;
+      border-radius: 5px;
+      margin: 1rem 0;
+      max-height: 300px;
+      overflow-y: auto;
+      font-family: 'Courier New', monospace;
+    }
+
+    .highlight {
+      background-color: #fffacd;
+      padding: 0.2rem 0.4rem;
+      border-radius: 3px;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 2rem;
+      padding: 1rem;
+      color: var(--dark);
+      opacity: 0.7;
+    }
+
+    @media (max-width: 768px) {
+      .content {
+        flex-direction: column;
+      }
+
+      .navigation {
+        position: static;
+        max-height: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="container">
+      <h1>JavaScript: Tornando a Página Viva</h1>
+      <p class="subtitle">Do básico à interação com APIs</p>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="content">
+      <nav class="navigation">
+        <h3>Navegação</h3>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="#intro" class="nav-link active">Introdução ao JavaScript</a></li>
+          <li class="nav-item"><a href="#variables" class="nav-link">Variáveis</a></li>
+          <li class="nav-item"><a href="#data-types" class="nav-link">Tipos de Dados</a></li>
+          <li class="nav-item"><a href="#operators" class="nav-link">Operadores e Condicionais</a></li>
+          <li class="nav-item"><a href="#functions" class="nav-link">Funções</a></li>
+          <li class="nav-item"><a href="#events" class="nav-link">Eventos</a></li>
+          <li class="nav-item"><a href="#dom" class="nav-link">DOM</a></li>
+          <li class="nav-item"><a href="#apis" class="nav-link">APIs e Fetch</a></li>
+          <li class="nav-item"><a href="#fetch-example" class="nav-link">Exemplo Prático com API</a></li>
+        </ul>
+      </nav>
+
+      <main class="main-content">
+        <section id="intro" class="section">
+          <h2>O que é JavaScript e como adicioná-lo ao HTML</h2>
+          <p>JavaScript é uma linguagem de programação que permite adicionar interatividade às páginas web. É uma das
+            três tecnologias principais da web, junto com HTML e CSS.</p>
+
+          <h3>Como adicionar JavaScript ao HTML:</h3>
+          <div class="code-block">
+            &lt;!-- Método 1: Inline --&gt;
+            &lt;button onclick="alert('Olá Mundo!')"&gt;Clique aqui&lt;/button&gt;
+
+            &lt;!-- Método 2: Interno --&gt;
+            &lt;script&gt;
+            function saudacao() {
+            alert('Olá Mundo!');
+            }
+            &lt;/script&gt;
+
+            &lt;!-- Método 3: Externo (recomendado) --&gt;
+            &lt;script src="script.js"&gt;&lt;/script&gt;
+          </div>
+
+          <div class="example">
+            <h4>Exemplo Interativo:</h4>
+            <button onclick="document.getElementById('demo-output').innerHTML = 'Olá, JavaScript!'">Clique para ver a
+              mágica</button>
+            <p id="demo-output" style="margin-top: 10px;"></p>
+          </div>
+        </section>
+
+        <section id="variables" class="section">
+          <h2>Variáveis</h2>
+          <p>Variáveis são containers para armazenar dados. Em JavaScript, podemos declarar variáveis usando <span
+              class="highlight">var</span>, <span class="highlight">let</span> ou <span class="highlight">const</span>.
+          </p>
+
+          <div class="code-block">
+            // Declaração de variáveis
+            var nome = "João"; // Forma antiga (escopo de função)
+            let idade = 25; // Forma moderna (escopo de bloco)
+            const PI = 3.14159; // Constante (não pode ser reatribuída)
+
+            // Reatribuição de valores
+            idade = 26; // Válido
+            // PI = 3.14; // Erro! Constante não pode ser reatribuída
+          </div>
+
+          <div class="interactive-demo">
+            <h4>Demonstração de Variáveis:</h4>
+            <div class="demo-controls">
+              <button onclick="demonstrateVariables()">Executar Demonstração</button>
+            </div>
+            <div id="variables-output"></div>
+          </div>
+        </section>
+
+        <section id="data-types" class="section">
+          <h2>Tipos de Dados</h2>
+          <p>JavaScript tem tipos de dados dinâmicos, o que significa que uma mesma variável pode conter diferentes
+            tipos de dados.</p>
+
+          <div class="code-block">
+            // Tipos primitivos
+            let texto = "Olá Mundo"; // String
+            let numero = 42; // Number
+            let decimal = 3.14; // Number
+            let booleano = true; // Boolean
+            let nulo = null; // Null
+            let indefinido = undefined; // Undefined
+            let simbolo = Symbol('id'); // Symbol (ES6)
+
+            // Tipo objeto
+            let pessoa = { // Object
+            nome: "Maria",
+            idade: 30
+            };
+
+            let frutas = ["maçã", "banana", "laranja"]; // Array
+          </div>
+
+          <div class="interactive-demo">
+            <h4>Verificar Tipo de Dado:</h4>
+            <div class="demo-controls">
+              <input type="text" id="data-type-input" placeholder="Digite qualquer valor">
+              <button onclick="checkDataType()">Verificar Tipo</button>
+            </div>
+            <p id="data-type-output"></p>
+          </div>
+        </section>
+
+        <section id="operators" class="section">
+          <h2>Operadores e Condicionais</h2>
+          <p>Operadores permitem realizar operações em variáveis e valores. Condicionais permitem executar código
+            baseado em condições.</p>
+
+          <h3>Operadores:</h3>
+          <div class="code-block">
+            // Aritméticos
+            let soma = 10 + 5; // 15
+            let subtracao = 10 - 5; // 5
+            let multiplicacao = 10 * 5; // 50
+            let divisao = 10 / 5; // 2
+            let resto = 10 % 3; // 1
+
+            // Comparação
+            let igual = 5 == "5"; // true (valor igual)
+            let estritamenteIgual = 5 === "5"; // false (valor e tipo iguais)
+            let diferente = 5 != "5"; // false
+            let maiorQue = 10 > 5; // true
+
+            // Lógicos
+            let e = (5 > 3) && (10 > 5); // true
+            let ou = (5 > 10) || (10 > 5); // true
+          </div>
+
+          <h3>Condicionais:</h3>
+          <div class="code-block">
+            // if/else
+            let hora = 14;
+
+            if (hora < 12) { console.log("Bom dia!"); } else if (hora < 18) { console.log("Boa tarde!"); } else {
+              console.log("Boa noite!"); } // Operador ternário let mensagem=(hora < 18) ? "Bom dia!" : "Boa noite!" ;
+              </div>
+
+              <div class="interactive-demo">
+                <h4>Verificador de Idade:</h4>
+                <div class="demo-controls">
+                  <input type="number" id="age-input" placeholder="Digite sua idade">
+                  <button onclick="checkAge()">Verificar</button>
+                </div>
+                <p id="age-output"></p>
+              </div>
+        </section>
+
+        <section id="functions" class="section">
+          <h2>Funções</h2>
+          <p>Funções são blocos de código reutilizáveis que executam uma tarefa específica.</p>
+
+          <div class="code-block">
+            // Declaração de função
+            function saudacao(nome) {
+            return "Olá, " + nome + "!";
+            }
+
+            // Expressão de função
+            const multiplicar = function(a, b) {
+            return a * b;
+            };
+
+            // Arrow function (ES6)
+            const dividir = (a, b) => a / b;
+
+            // Chamando funções
+            let mensagem = saudacao("Ana"); // "Olá, Ana!"
+            let produto = multiplicar(5, 3); // 15
+            let quociente = dividir(10, 2); // 5
+          </div>
+
+          <div class="interactive-demo">
+            <h4>Calculadora Simples:</h4>
+            <div class="demo-controls">
+              <input type="number" id="num1" placeholder="Número 1">
+              <input type="number" id="num2" placeholder="Número 2">
+              <select id="operation">
+                <option value="add">Somar</option>
+                <option value="subtract">Subtrair</option>
+                <option value="multiply">Multiplicar</option>
+                <option value="divide">Dividir</option>
+              </select>
+              <button onclick="calculate()">Calcular</button>
+            </div>
+            <p id="calculation-output"></p>
+          </div>
+        </section>
+
+        <section id="events" class="section">
+          <h2>Eventos</h2>
+          <p>Eventos são ações que ocorrem no navegador, como cliques, movimentos do mouse, pressionamento de teclas,
+            etc. Podemos usar JavaScript para responder a esses eventos.</p>
+
+          <div class="code-block">
+            // Métodos para adicionar eventos
+
+            // 1. Atributo HTML
+            // &lt;button onclick="minhaFuncao()"&gt;Clique&lt;/button&gt;
+
+            // 2. Propriedade do elemento
+            let btn = document.getElementById("meuBotao");
+            btn.onclick = function() {
+            alert("Botão clicado!");
+            };
+
+            // 3. addEventListener (recomendado)
+            btn.addEventListener("click", function() {
+            alert("Botão clicado!");
+            });
+          </div>
+
+          <div class="interactive-demo">
+            <h4>Área de Eventos:</h4>
+            <div class="demo-controls">
+              <button id="click-btn">Clique Aqui</button>
+              <input type="text" id="key-input" placeholder="Digite algo aqui">
+              <div id="mouse-area" style="padding: 20px; background-color: #eee; margin-top: 10px; text-align: center;">
+                Passe o mouse aqui
+              </div>
+            </div>
+            <p id="events-output"></p>
+          </div>
+        </section>
+
+        <section id="dom" class="section">
+          <h2>DOM (Document Object Model)</h2>
+          <p>O DOM é uma representação em forma de árvore da estrutura HTML de uma página. JavaScript pode manipular o
+            DOM para alterar conteúdo, estilo e estrutura da página.</p>
+
+          <div class="code-block">
+            // Selecionando elementos
+            let titulo = document.getElementById("meuTitulo");
+            let paragrafos = document.getElementsByClassName("meuParagrafo");
+            let elementos = document.querySelectorAll("div.minhaClasse");
+
+            // Alterando conteúdo
+            titulo.innerHTML = "Novo Título";
+            titulo.textContent = "Outro Título";
+
+            // Alterando estilos
+            titulo.style.color = "red";
+            titulo.style.fontSize = "24px";
+
+            // Adicionando/removendo classes
+            titulo.classList.add("destaque");
+            titulo.classList.remove("antigo");
+
+            // Criando elementos
+            let novoParagrafo = document.createElement("p");
+            novoParagrafo.textContent = "Este é um novo parágrafo";
+            document.body.appendChild(novoParagrafo);
+          </div>
+
+          <div class="interactive-demo">
+            <h4>Manipulação do DOM:</h4>
+            <div class="demo-controls">
+              <input type="text" id="dom-input" placeholder="Digite um texto">
+              <button onclick="addElement()">Adicionar Elemento</button>
+              <button onclick="changeColor()">Mudar Cor</button>
+              <button onclick="clearElements()">Limpar</button>
+            </div>
+            <div id="dom-output" style="margin-top: 10px; padding: 10px; border: 1px dashed #ccc; min-height: 50px;">
+            </div>
+          </div>
+        </section>
+
+        <section id="apis" class="section">
+          <h2>Interação com APIs e Fetch</h2>
+
+          <h3>O que é uma API e JSON</h3>
+          <p>API (Application Programming Interface) é um conjunto de regras que permite que diferentes softwares se
+            comuniquem. JSON (JavaScript Object Notation) é um formato leve de troca de dados, fácil para humanos lerem
+            e escreverem, e para máquinas parsearem e gerarem.</p>
+
+          <div class="code-block">
+            // Exemplo de JSON
+            {
+            "usuarios": [
+            {
+            "id": 1,
+            "nome": "João Silva",
+            "email": "joao@exemplo.com"
+            },
+            {
+            "id": 2,
+            "nome": "Maria Santos",
+            "email": "maria@exemplo.com"
+            }
+            ]
+            }
+          </div>
+
+          <h3>Como usar o fetch()</h3>
+          <p>A API Fetch fornece uma interface para buscar recursos (incluindo através da rede). É uma alternativa mais
+            poderosa e flexível ao XMLHttpRequest.</p>
+
+          <div class="code-block">
+            // Requisição GET simples
+            fetch('https://api.exemplo.com/usuarios')
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error('Erro:', error));
+
+            // Requisição POST
+            fetch('https://api.exemplo.com/usuarios', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+            nome: 'Novo Usuário',
+            email: 'novo@exemplo.com'
+            })
+            })
+            .then(response => response.json())
+            .then(data => console.log(data));
+          </div>
+        </section>
+
+        <section id="fetch-example" class="section">
+          <h2>Exemplo prático com API pública</h2>
+          <p>Vamos usar a JSONPlaceholder API, uma API REST fake para testes e prototipagem.</p>
+
+          <div class="interactive-demo">
+            <h4>Buscar Dados da API:</h4>
+            <div class="demo-controls">
+              <select id="api-endpoint">
+                <option value="posts">Posts</option>
+                <option value="comments">Comentários</option>
+                <option value="users">Usuários</option>
+              </select>
+              <button onclick="fetchData()">Buscar Dados</button>
+              <button onclick="clearApiResult()">Limpar</button>
+            </div>
+            <div id="api-result" class="api-result"></div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <p>Apresentação sobre JavaScript - Desenvolvido para fins educacionais</p>
+    </div>
+  </footer>
+
+  <script>
+    // Demonstração de Variáveis
+    function demonstrateVariables() {
+      let output = document.getElementById('variables-output');
+
+      // Declaração de variáveis
+      var varExemplo = "Variável com var";
+      let letExemplo = "Variável com let";
+      const constExemplo = "Variável com const";
+
+      // Tentativa de reatribuição
+      letExemplo = "Novo valor para let";
+      // constExemplo = "Tentativa de mudar const"; // Isso causaria erro
+
+      output.innerHTML = `
+                <p><strong>var:</strong> ${varExemplo}</p>
+                <p><strong>let:</strong> ${letExemplo}</p>
+                <p><strong>const:</strong> ${constExemplo}</p>
+                <p><em>Nota: Tentar reatribuir uma constante causaria um erro.</em></p>
+            `;
+    }
+
+    // Verificar Tipo de Dado
+    function checkDataType() {
+      let input = document.getElementById('data-type-input').value;
+      let output = document.getElementById('data-type-output');
+
+      // Tentar converter para número se possível
+      if (!isNaN(input) && input.trim() !== '') {
+        let num = Number(input);
+        output.innerHTML = `<strong>${input}</strong> é do tipo: <span style="color: #e74c3c;">${typeof num}</span>`;
+      } else if (input.toLowerCase() === 'true' || input.toLowerCase() === 'false') {
+        let bool = input.toLowerCase() === 'true';
+        output.innerHTML = `<strong>${input}</strong> é do tipo: <span style="color: #e74c3c;">${typeof bool}</span>`;
+      } else if (input.trim() === '') {
+        output.innerHTML = `Entrada vazia é do tipo: <span style="color: #e74c3c;">${typeof input}</span>`;
+      } else {
+        output.innerHTML = `<strong>${input}</strong> é do tipo: <span style="color: #e74c3c;">${typeof input}</span>`;
+      }
+    }
+
+    // Verificar Idade
+    function checkAge() {
+      let age = document.getElementById('age-input').value;
+      let output = document.getElementById('age-output');
+
+      if (age === '') {
+        output.innerHTML = 'Por favor, digite uma idade.';
+        return;
+      }
+
+      age = parseInt(age);
+
+      if (age < 0) {
+        output.innerHTML = 'Idade não pode ser negativa.';
+      } else if (age < 13) {
+        output.innerHTML = 'Você é uma criança.';
+      } else if (age < 18) {
+        output.innerHTML = 'Você é um adolescente.';
+      } else if (age < 65) {
+        output.innerHTML = 'Você é um adulto.';
+      } else {
+        output.innerHTML = 'Você é um idoso.';
+      }
+    }
+
+    // Calculadora
+    function calculate() {
+      let num1 = parseFloat(document.getElementById('num1').value);
+      let num2 = parseFloat(document.getElementById('num2').value);
+      let operation = document.getElementById('operation').value;
+      let output = document.getElementById('calculation-output');
+
+      if (isNaN(num1) || isNaN(num2)) {
+        output.innerHTML = 'Por favor, digite números válidos.';
+        return;
+      }
+
+      let result;
+      switch (operation) {
+        case 'add':
+          result = num1 + num2;
+          output.innerHTML = `${num1} + ${num2} = <strong>${result}</strong>`;
+          break;
+        case 'subtract':
+          result = num1 - num2;
+          output.innerHTML = `${num1} - ${num2} = <strong>${result}</strong>`;
+          break;
+        case 'multiply':
+          result = num1 * num2;
+          output.innerHTML = `${num1} × ${num2} = <strong>${result}</strong>`;
+          break;
+        case 'divide':
+          if (num2 === 0) {
+            output.innerHTML = 'Erro: Divisão por zero!';
+          } else {
+            result = num1 / num2;
+            output.innerHTML = `${num1} ÷ ${num2} = <strong>${result}</strong>`;
+          }
+          break;
+      }
+    }
+
+    // Eventos
+    document.addEventListener('DOMContentLoaded', function () {
+      // Evento de clique
+      document.getElementById('click-btn').addEventListener('click', function () {
+        document.getElementById('events-output').innerHTML = 'Botão foi clicado!';
+      });
+
+      // Evento de digitação
+      document.getElementById('key-input').addEventListener('input', function (e) {
+        document.getElementById('events-output').innerHTML = `Você digitou: ${e.target.value}`;
+      });
+
+      // Eventos de mouse
+      const mouseArea = document.getElementById('mouse-area');
+      mouseArea.addEventListener('mouseover', function () {
+        this.style.backgroundColor = '#d4edda';
+        document.getElementById('events-output').innerHTML = 'Mouse sobre a área!';
+      });
+
+      mouseArea.addEventListener('mouseout', function () {
+        this.style.backgroundColor = '#eee';
+        document.getElementById('events-output').innerHTML = 'Mouse saiu da área!';
+      });
+    });
+
+    // Manipulação do DOM
+    function addElement() {
+      let input = document.getElementById('dom-input').value;
+      let output = document.getElementById('dom-output');
+
+      if (input.trim() === '') {
+        alert('Por favor, digite algum texto.');
+        return;
+      }
+
+      let newElement = document.createElement('div');
+      newElement.textContent = input;
+      newElement.style.padding = '5px';
+      newElement.style.margin = '5px 0';
+      newElement.style.backgroundColor = '#f8f9fa';
+      newElement.style.borderRadius = '3px';
+
+      output.appendChild(newElement);
+      document.getElementById('dom-input').value = '';
+    }
+
+    function changeColor() {
+      let output = document.getElementById('dom-output');
+      let elements = output.getElementsByTagName('div');
+
+      const colors = ['#e8f4fd', '#fff3cd', '#d1ecf1', '#d4edda', '#f8d7da'];
+
+      for (let i = 0; i < elements.length; i++) {
+        elements[i].style.backgroundColor = colors[i % colors.length];
+      }
+    }
+
+    function clearElements() {
+      document.getElementById('dom-output').innerHTML = '';
+    }
+
+    // Fetch API
+    function fetchData() {
+      const endpoint = document.getElementById('api-endpoint').value;
+      const apiUrl = `https://jsonplaceholder.typicode.com/${endpoint}`;
+      const resultDiv = document.getElementById('api-result');
+
+      resultDiv.innerHTML = 'Carregando...';
+
+      fetch(apiUrl)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Erro na requisição: ' + response.status);
+          }
+          return response.json();
+        })
+        .then(data => {
+          // Limitar a exibição para os primeiros 5 itens
+          const limitedData = data.slice(0, 5);
+          resultDiv.innerHTML = `<pre>${JSON.stringify(limitedData, null, 2)}</pre>`;
+        })
+        .catch(error => {
+          resultDiv.innerHTML = `Erro: ${error.message}`;
+        });
+    }
+
+    function clearApiResult() {
+      document.getElementById('api-result').innerHTML = '';
+    }
+
+    // Navegação suave e destaque de seção ativa
+    document.addEventListener('DOMContentLoaded', function () {
+      const navLinks = document.querySelectorAll('.nav-link');
+
+      navLinks.forEach(link => {
+        link.addEventListener('click', function (e) {
+          e.preventDefault();
+
+          // Remover classe active de todos os links
+          navLinks.forEach(l => l.classList.remove('active'));
+
+          // Adicionar classe active ao link clicado
+          this.classList.add('active');
+
+          // Rolagem suave para a seção
+          const targetId = this.getAttribute('href');
+          const targetSection = document.querySelector(targetId);
+
+          if (targetSection) {
+            window.scrollTo({
+              top: targetSection.offsetTop - 20,
+              behavior: 'smooth'
+            });
+          }
+        });
+      });
+
+      // Atualizar link ativo durante a rolagem
+      window.addEventListener('scroll', function () {
+        const sections = document.querySelectorAll('.section');
+        let currentSection = '';
+
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop;
+          const sectionHeight = section.clientHeight;
+
+          if (window.scrollY >= sectionTop - 100) {
+            currentSection = section.getAttribute('id');
+          }
+        });
+
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === `#${currentSection}`) {
+            link.classList.add('active');
+          }
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

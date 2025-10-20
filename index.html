@@ -162,7 +162,7 @@
 
     .demo-example {
       display: flex;
-      flex-direction: column;
+      flex-direction: column; /* default stack vertically: interactive controls first, then demo code */
       gap: 1rem;
       margin: 1rem 0;
     }
@@ -278,16 +278,7 @@
       }
     }
 
-    @media (min-width: 900px) {
-      .demo-example {
-        flex-direction: row;
-      }
-
-      .demo-example .interactive-demo,
-      .demo-example .demo-code {
-        flex: 1;
-      }
-    }
+    /* Keep demo examples stacked vertically on all screen sizes so demo code appears under the interactive controls */
   </style>
   <!-- Prism.js for syntax highlighting -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" />
@@ -813,34 +804,40 @@ fetch('https://api.exemplo.com/usuarios', {
   </footer>
 
   <script>
+    // Clean, working demo script
+
     // Demonstração de Variáveis
     function demonstrateVariables() {
       const output = document.getElementById('variables-output');
 
-  var varExemplo = "Vari     "Variável com     iável com const";
+      const varExemplo = 'Variável com var';
+      let letExemplo = 'Variável com let';
+      const constExemplo = 'Variável com const';
 
-  letExemplo = "Novo valor para let";
+      letExemplo = 'Novo valor para let';
 
       output.innerHTML = `
-        <p><strong>var:</strong> ${varExe          </strong> ${l          >const:</strong> ${constExemplo}</p>
-        <p><em>Nota: Tentar reatrio          nte causaria um erro.</em></p>
+        <p><strong>var:</strong> ${varExemplo}</p>
+        <p><strong>let:</strong> ${letExemplo}</p>
+        <p><strong>const:</strong> ${constExemplo}</p>
+        <p><em>Nota: Tentar reatribuir uma constante causaria um erro.</em></p>
       `.trim();
     }
 
     // Verificar Tipo de Dado
     function checkDataType() {
-      const rawValu          = document.getElementById('data-type-          put').value;
-      const value = rawV          ue.trim();
-      const output = document.get          ementById('data-type-output');
+      const rawValue = document.getElementById('data-type-input').value;
+      const value = rawValue.trim();
+      const output = document.getElementById('data-type-output');
 
-               alue === '') {
+      if (value === '') {
         output.innerHTML = 'Entrada vazia é do tipo: <span style="color: #e74c3c;">string</span>';
         return;
       }
 
       if (!Number.isNaN(Number(value))) {
         const numberValue = Number(value);
-        output.innerHTML = `<strong>${value}</stro        é d        po: <span style="color: #e        c;">${typeof numberValue}</          ;
+        output.innerHTML = `<strong>${value}</strong> é do tipo: <span style="color: #e74c3c;">${typeof numberValue}</span>`;
         return;
       }
 
@@ -917,31 +914,6 @@ fetch('https://api.exemplo.com/usuarios', {
       }
     }
 
-    // Eventos
-    document.addEventListener('DOMContentLoaded', () => {
-      const clickBtn = document.getElementById('click-btn');
-      const keyInput = document.getElementById('key-input');
-      const mouseArea = document.getElementById('mouse-area');
-      const output = document.getElementById('events-output');
-
-      clickBtn.addEventListener('click', () => {
-        output.innerHTML = 'Botão foi clicado!';
-      });
-
-      keyInp            entListen              , (event) => {
-        output.innerHTML = `Vo          it        ${e        .target.value}`;
-      });
-
-      mouseArea.addEventListener('mouseov          ) => {
-        mouseArea.style.backgroundColor = '#d4ed                 output.innerHTML = 'Mouse sobre a área!';
-      });
-
-      mouseArea.addEventListener('mouseout', () => {
-        mouseArea.style.backgroundColor = '#eee';
-        output.innerHTML = 'Mouse saiu da área!';
-      });
-    });
-
     // Manipulação do DOM
     function addElement() {
       const input = document.getElementById('dom-input');
@@ -962,8 +934,8 @@ fetch('https://api.exemplo.com/usuarios', {
     }
 
     function changeColor() {
-              t output = document.getE          ById('dom-output');
-      const elements = output.qu          ectorAll('.dom-item');
+      const output = document.getElementById('dom-output');
+      const elements = output.querySelectorAll('.dom-item');
       const colors = ['#e8f4fd', '#fff3cd', '#d1ecf1', '#d4edda', '#f8d7da'];
 
       elements.forEach((element, index) => {
@@ -990,8 +962,8 @@ fetch('https://api.exemplo.com/usuarios', {
           }
           return response.json();
         })
-        .then((dat          > {
-          const limitedData = data.slice(0, 5);
+        .then((data) => {
+          const limitedData = Array.isArray(data) ? data.slice(0, 5) : data;
           resultDiv.innerHTML = `<pre>${JSON.stringify(limitedData, null, 2)}</pre>`;
         })
         .catch((error) => {
@@ -1003,21 +975,51 @@ fetch('https://api.exemplo.com/usuarios', {
       document.getElementById('api-result').innerHTML = '';
     }
 
-    // Navegação suave e destaque de seção ativa
+    // Eventos e navegação
     document.addEventListener('DOMContentLoaded', function () {
+      // Events demo
+      const clickBtn = document.getElementById('click-btn');
+      const keyInput = document.getElementById('key-input');
+      const mouseArea = document.getElementById('mouse-area');
+      const eventsOutput = document.getElementById('events-output');
+
+      if (clickBtn) {
+        clickBtn.addEventListener('click', () => {
+          if (eventsOutput) eventsOutput.innerHTML = 'Botão foi clicado!';
+        });
+      }
+
+      if (keyInput) {
+        keyInput.addEventListener('input', (event) => {
+          if (eventsOutput) eventsOutput.innerHTML = `Você digitou: ${event.target.value}`;
+        });
+      }
+
+      if (mouseArea) {
+        mouseArea.addEventListener('mouseover', () => {
+          mouseArea.style.backgroundColor = '#d4edda';
+          if (eventsOutput) eventsOutput.innerHTML = 'Mouse sobre a área!';
+        });
+
+        mouseArea.addEventListener('mouseout', () => {
+          mouseArea.style.backgroundColor = '#eee';
+          if (eventsOutput) eventsOutput.innerHTML = 'Mouse saiu da área!';
+        });
+      }
+
+      // Smooth navigation and active link highlight
       const navLinks = document.querySelectorAll('.nav-link');
 
       navLinks.forEach(link => {
         link.addEventListener('click', function (e) {
           e.preventDefault();
 
-          // Remover classe active de todos os links
+          // Remove active from all
           navLinks.forEach(l => l.classList.remove('active'));
 
-          // Adicionar classe active ao link clicado
+          // Add active to clicked
           this.classList.add('active');
 
-          // Rolagem suave para a seção
           const targetId = this.getAttribute('href');
           const targetSection = document.querySelector(targetId);
 
@@ -1030,15 +1032,12 @@ fetch('https://api.exemplo.com/usuarios', {
         });
       });
 
-      // Atualizar link ativo durante a rolagem
       window.addEventListener('scroll', function () {
         const sections = document.querySelectorAll('.section');
         let currentSection = '';
 
         sections.forEach(section => {
           const sectionTop = section.offsetTop;
-          const sectionHeight = section.clientHeight;
-
           if (window.scrollY >= sectionTop - 100) {
             currentSection = section.getAttribute('id');
           }

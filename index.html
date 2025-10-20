@@ -315,29 +315,28 @@
 
       <main class="main-content">
         <section id="intro" class="section">
-          <h2>O que é JavaScript e como adicioná-lo ao HTML</h2>
-          <p>JavaScript é uma linguagem de programação que permite adicionar interatividade às páginas web. É uma das
-            três tecnologias principais da web, junto com HTML e CSS.</p>
+          <h2>O que é JavaScript e como usá-lo</h2>
+          <p>JavaScript é a linguagem que adiciona comportamento às páginas web: responde a ações do usuário,
+            altera conteúdo dinamicamente e consome APIs. Em conjunto com HTML (estrutura) e CSS (estilo),
+            JavaScript torna páginas interativas e dinâmicas.</p>
 
-          <h3>Como adicionar JavaScript ao HTML:</h3>
-          <pre class="code-block"><code class="language-markup">&lt;!-- Método 1: Inline --&gt;
+          <h3>Como incluir JavaScript</h3>
+          <pre class="code-block"><code class="language-markup">&lt;!-- 1) Inline (rápido, educativo) --&gt;
 &lt;button onclick="alert('Olá Mundo!')"&gt;Clique aqui&lt;/button&gt;
 
-&lt;!-- Método 2: Interno --&gt;
+&lt;!-- 2) Interno (dentro da página) --&gt;
 &lt;script&gt;
-function saudacao() {
-  alert('Olá Mundo!');
-}
+function saudacao() { alert('Olá Mundo!'); }
 &lt;/script&gt;
 
-&lt;!-- Método 3: Externo (recomendado) --&gt;
+&lt;!-- 3) Externo (recomendado em produção) --&gt;
 &lt;script src="script.js"&gt;&lt;/script&gt;
 </code></pre>
 
           <div class="example">
-            <h4>Exemplo Interativo:</h4>
-            <button onclick="document.getElementById('demo-output').innerHTML = 'Olá, JavaScript!'">Clique para ver a
-              mágica</button>
+            <h4>Exemplo Interativo</h4>
+            <button onclick="document.getElementById('demo-output').textContent = 'Olá, Mundo!'">Clique aqui</button>
+            <button onclick="alert('Olá, Mundo!')">Ou aqui</button>
             <p id="demo-output" style="margin-top: 10px;"></p>
           </div>
         </section>

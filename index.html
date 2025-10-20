@@ -42,6 +42,8 @@
       margin-bottom: 2rem;
       border-radius: 0 0 10px 10px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      position: relative;
+      z-index: 1200;
     }
 
     h1 {
@@ -83,6 +85,7 @@
       left: 20px;
       top: 20px;
       bottom: 20px;
+      z-index: 1000;
       overflow-y: auto;
     }
 
@@ -1229,6 +1232,32 @@ fetch('https://api.exemplo.com/usuarios', {
         });
       });
     });
+  </script>
+  <script>
+    // Ensure the fixed sidebar never covers the header
+    (function () {
+      const nav = document.querySelector('.navigation');
+      const header = document.querySelector('header');
+
+      if (!nav || !header) return;
+
+      function adjustNavTop() {
+        const headerRect = header.getBoundingClientRect();
+        // If header is visible at top of viewport, position nav below it
+        const headerBottom = Math.max(0, headerRect.bottom + window.scrollY);
+        const offset = window.scrollY <= headerRect.bottom ? headerRect.bottom + 10 : 20;
+        // compute top relative to document
+        const topValue = Math.max(20, offset);
+        nav.style.top = topValue + 'px';
+      }
+
+      // Run on load, scroll, and resize
+      window.addEventListener('load', adjustNavTop);
+      window.addEventListener('resize', adjustNavTop);
+      window.addEventListener('scroll', adjustNavTop);
+      // initial call
+      adjustNavTop();
+    })();
   </script>
 </body>
 

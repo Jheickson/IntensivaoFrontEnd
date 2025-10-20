@@ -160,11 +160,59 @@
       margin: 1rem 0;
     }
 
+    .demo-example {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .demo-code {
+      background-color: white;
+      border-radius: 10px;
+      padding: 1.25rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .demo-code h5 {
+      margin-bottom: 0.6rem;
+      color: var(--primary);
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .demo-code .code-block {
+      margin: 0.6rem 0 0;
+    }
+
     .demo-controls {
       display: flex;
       gap: 1rem;
       margin: 1rem 0;
       flex-wrap: wrap;
+    }
+
+    .dom-item {
+      padding: 5px;
+      margin: 5px 0;
+      background-color: #f8f9fa;
+      border-radius: 3px;
+    }
+
+    #dom-output {
+      margin-top: 10px;
+      padding: 10px;
+      border: 1px dashed #ccc;
+      min-height: 50px;
+    }
+
+    #mouse-area {
+      padding: 20px;
+      background-color: #eee;
+      margin-top: 10px;
+      text-align: center;
     }
 
     button {
@@ -224,6 +272,21 @@
         position: static;
         max-height: none;
       }
+
+      .demo-example {
+        margin: 1.5rem 0;
+      }
+    }
+
+    @media (min-width: 900px) {
+      .demo-example {
+        flex-direction: row;
+      }
+
+      .demo-example .interactive-demo,
+      .demo-example .demo-code {
+        flex: 1;
+      }
     }
   </style>
   <!-- Prism.js for syntax highlighting -->
@@ -267,12 +330,12 @@
 
           <h3>Como adicionar JavaScript ao HTML:</h3>
           <pre class="code-block"><code class="language-markup">&lt;!-- Método 1: Inline --&gt;
-          &lt;button onclick="alert('Olá Mundo!')"&gt;Clique aqui&lt;/button&gt;
+&lt;button onclick="alert('Olá Mundo!')"&gt;Clique aqui&lt;/button&gt;
 
 &lt;!-- Método 2: Interno --&gt;
 &lt;script&gt;
 function saudacao() {
-alert('Olá Mundo!');
+  alert('Olá Mundo!');
 }
 &lt;/script&gt;
 
@@ -294,23 +357,36 @@ alert('Olá Mundo!');
               class="highlight">var</span>, <span class="highlight">let</span> ou <span class="highlight">const</span>.
           </p>
 
-          <pre class="code-block"><code class="language-javascript">// Declaração de variáveis
-          var nome = "João"; // Forma antiga (escopo de função)
-          let idade = 25; // Forma moderna (escopo de bloco)
-          const PI = 3.14159; // Constante (não pode ser reatribuída)
-
-// Reatribuição de valores
-idade = 26; // Válido
-// PI = 3.14; // Erro! Constante não pode ser reatribuída
-</code></pre>
-
-          <div class="interactive-demo">
-            <h4>Demonstração de Variáveis:</h4>
-            <div class="demo-controls">
-              <button onclick="demonstrateVariables()">Executar Demonstração</button>
+          <div class="demo-example">
+            <div class="interactive-demo">
+              <h4>Demonstração de Variáveis:</h4>
+              <div class="demo-controls">
+                <button onclick="demonstrateVariables()">Executar Demonstração</button>
+              </div>
+              <div id="variables-output"></div>
             </div>
-            <div id="variables-output"></div>
-          </div>
+            <div class="demo-code">
+              <h5>Código do Demo</h5>
+              <pre class="code-block"><code class="language-markup">&lt;button onclick="demonstrateVariables()"&gt;Executar Demonstração&lt;/button&gt;
+            &lt;div id="variables-output"&gt;&lt;/div&gt;</code></pre>
+              <pre class="code-block"><code class="language-javascript">function demonstrateVariables() {
+              const output = document.getElementById('variables-output');
+            
+              var varExemplo = "Variável com var";
+              let letExemplo = "Variável com let";
+              const constExemplo = "Variável com const";
+            
+              letExemplo = "Novo valor para let";
+            
+              output.innerHTML = `
+                &lt;p&gt;&lt;strong&gt;var:&lt;/strong&gt; ${varExemplo}&lt;/p&gt;
+                &lt;p&gt;&lt;strong&gt;let:&lt;/strong&gt; ${letExemplo}&lt;/p&gt;
+                &lt;p&gt;&lt;strong&gt;const:&lt;/strong&gt; ${constExemplo}&lt;/p&gt;
+                &lt;p&gt;&lt;em&gt;Nota: Tentar reatribuir uma constante causaria um erro.&lt;/em&gt;&lt;/p&gt;
+              `.trim();
+            }</code></pre>
+            </div>
+            </div>
         </section>
 
         <section id="data-types" class="section">
@@ -318,32 +394,47 @@ idade = 26; // Válido
           <p>JavaScript tem tipos de dados dinâmicos, o que significa que uma mesma variável pode conter diferentes
             tipos de dados.</p>
 
-          <pre class="code-block"><code class="language-javascript">// Tipos primitivos
-          let texto = "Olá Mundo"; // String
-          let numero = 42; // Number
-          let decimal = 3.14; // Number
-          let booleano = true; // Boolean
-          let nulo = null; // Null
-          let indefinido = undefined; // Undefined
-          let simbolo = Symbol('id'); // Symbol (ES6)
-
-// Tipo objeto
-let pessoa = { // Object
-nome: "Maria",
-idade: 30
-};
-
-let frutas = ["maçã", "banana", "laranja"]; // Array
-</code></pre>
-
-          <div class="interactive-demo">
-            <h4>Verificar Tipo de Dado:</h4>
-            <div class="demo-controls">
-              <input type="text" id="data-type-input" placeholder="Digite qualquer valor">
-              <button onclick="checkDataType()">Verificar Tipo</button>
+          <div class="demo-example">
+            <div class="interactive-demo">
+              <h4>Verificar Tipo de Dado:</h4>
+              <div class="demo-controls">
+                <input type="text" id="data-type-input" placeholder="Digite qualquer valor">
+                <button onclick="checkDataType()">Verificar Tipo</button>
+              </div>
+              <p id="data-type-output"></p>
             </div>
-            <p id="data-type-output"></p>
-          </div>
+            <div class="demo-code">
+              <h5>Código do Demo</h5>
+              <pre class="code-block"><code class="language-markup">&lt;input type="text" id="data-type-input" placeholder="Digite qualquer valor"&gt;
+            &lt;button onclick="checkDataType()"&gt;Verificar Tipo&lt;/button&gt;
+            &lt;p id="data-type-output"&gt;&lt;/p&gt;</code></pre>
+              <pre class="code-block"><code class="language-javascript">function checkDataType() {
+              const rawValue = document.getElementById('data-type-input').value;
+              const value = rawValue.trim();
+              const output = document.getElementById('data-type-output');
+            
+              if (value === '') {
+                output.innerHTML = 'Entrada vazia é do tipo: <span style="color: #e74c3c;">string</span>';
+                return;
+              }
+            
+              if (!Number.isNaN(Number(value))) {
+                const numberValue = Number(value);
+                output.innerHTML = `<strong>${value}</strong> é do tipo: <span style="color: #e74c3c;">${typeof numberValue}</span>`;
+                return;
+              }
+            
+              const lowered = value.toLowerCase();
+              if (lowered === 'true' || lowered === 'false') {
+                const bool = lowered === 'true';
+                output.innerHTML = `<strong>${value}</strong> é do tipo: <span style="color: #e74c3c;">${typeof bool}</span>`;
+                return;
+              }
+            
+              output.innerHTML = `<strong>${value}</strong> é do tipo: <span style="color: #e74c3c;">${typeof value}</span>`;
+            }</code></pre>
+            </div>
+            </div>
         </section>
 
         <section id="operators" class="section">
@@ -353,11 +444,11 @@ let frutas = ["maçã", "banana", "laranja"]; // Array
 
           <h3>Operadores:</h3>
           <pre class="code-block"><code class="language-javascript">// Aritméticos
-          let soma = 10 + 5; // 15
-          let subtracao = 10 - 5; // 5
-          let multiplicacao = 10 * 5; // 50
-          let divisao = 10 / 5; // 2
-          let resto = 10 % 3; // 1
+let soma = 10 + 5; // 15
+let subtracao = 10 - 5; // 5
+let multiplicacao = 10 * 5; // 50
+let divisao = 10 / 5; // 2
+let resto = 10 % 3; // 1
 
 // Comparação
 let igual = 5 == "5"; // true (valor igual)
@@ -372,60 +463,126 @@ let ou = (5 > 10) || (10 > 5); // true
 
           <h3>Condicionais:</h3>
           <pre class="code-block"><code class="language-javascript">// if/else
-          let hora = 14;
+let hora = 14;
 
 if (hora < 12) { console.log("Bom dia!"); } else if (hora < 18) { console.log("Boa tarde!"); } else { console.log("Boa
-  noite!"); } // Operador ternário let mensagem=(hora < 18) ? "Bom dia!" : "Boa noite!" ; </code>
-  </pre>
+  noite!"); }
 
-              <div class="interactive-demo">
-                <h4>Verificador de Idade:</h4>
-                <div class="demo-controls">
-                  <input type="number" id="age-input" placeholder="Digite sua idade">
-                  <button onclick="checkAge()">Verificar</button>
-                </div>
-                <p id="age-output"></p>
+// Operador ternário
+let mensagem = (hora < 18) ? "Bom dia!" : "Boa noite!";
+</code></pre>
+
+          <div class="demo-example">
+            <div class="interactive-demo">
+              <h4>Verificador de Idade:</h4>
+              <div class="demo-controls">
+                <input type="number" id="age-input" placeholder="Digite sua idade">
+                <button onclick="checkAge()">Verificar</button>
               </div>
+              <p id="age-output"></p>
+            </div>
+            <div class="demo-code">
+              <h5>Código do Demo</h5>
+              <pre class="code-block"><code class="language-markup">&lt;input type="number" id="age-input" placeholder="Digite sua idade"&gt;
+            &lt;button onclick="checkAge()"&gt;Verificar&lt;/button&gt;
+            &lt;p id="age-output"&gt;&lt;/p&gt;</code></pre>
+              <pre class="code-block"><code class="language-javascript">function checkAge() {
+              const input = document.getElementById('age-input');
+              const output = document.getElementById('age-output');
+              const age = Number.parseInt(input.value, 10);
+            
+              if (Number.isNaN(age)) {
+                output.innerHTML = 'Por favor, digite uma idade válida.';
+                return;
+              }
+            
+              if (age < 0) {
+                output.innerHTML = 'Idade não pode ser negativa.';
+              } else if (age < 13) {
+                output.innerHTML = 'Você é uma criança.';
+              } else if (age < 18) {
+                output.innerHTML = 'Você é um adolescente.';
+              } else if (age < 65) {
+                output.innerHTML = 'Você é um adulto.';
+              } else {
+                output.innerHTML = 'Você é um idoso.';
+              }
+            }</code></pre>
+            </div>
+            </div>
         </section>
 
         <section id="functions" class="section">
           <h2>Funções</h2>
           <p>Funções são blocos de código reutilizáveis que executam uma tarefa específica.</p>
 
-          <pre class="code-block"><code class="language-javascript">// Declaração de função
-          function saudacao(nome) {
-            return "Olá, " + nome + "!";
-          }
-
-// Expressão de função
-const multiplicar = function(a, b) {
-return a * b;
-};
-
-// Arrow function (ES6)
-const dividir = (a, b) => a / b;
-
-// Chamando funções
-let mensagem = saudacao("Ana"); // "Olá, Ana!"
-let produto = multiplicar(5, 3); // 15
-let quociente = dividir(10, 2); // 5
-</code></pre>
-
-          <div class="interactive-demo">
-            <h4>Calculadora Simples:</h4>
-            <div class="demo-controls">
-              <input type="number" id="num1" placeholder="Número 1">
-              <input type="number" id="num2" placeholder="Número 2">
-              <select id="operation">
-                <option value="add">Somar</option>
-                <option value="subtract">Subtrair</option>
-                <option value="multiply">Multiplicar</option>
-                <option value="divide">Dividir</option>
-              </select>
-              <button onclick="calculate()">Calcular</button>
+          <div class="demo-example">
+            <div class="interactive-demo">
+              <h4>Calculadora Simples:</h4>
+              <div class="demo-controls">
+                <input type="number" id="num1" placeholder="Número 1">
+                <input type="number" id="num2" placeholder="Número 2">
+                <select id="operation">
+                  <option value="add">Somar</option>
+                  <option value="subtract">Subtrair</option>
+                  <option value="multiply">Multiplicar</option>
+                  <option value="divide">Dividir</option>
+                </select>
+                <button onclick="calculate()">Calcular</button>
+              </div>
+              <p id="calculation-output"></p>
             </div>
-            <p id="calculation-output"></p>
-          </div>
+            <div class="demo-code">
+              <h5>Código do Demo</h5>
+              <pre class="code-block"><code class="language-markup">&lt;input type="number" id="num1" placeholder="Número 1"&gt;
+            &lt;input type="number" id="num2" placeholder="Número 2"&gt;
+            &lt;select id="operation"&gt;
+              &lt;option value="add"&gt;Somar&lt;/option&gt;
+              &lt;option value="subtract"&gt;Subtrair&lt;/option&gt;
+              &lt;option value="multiply"&gt;Multiplicar&lt;/option&gt;
+              &lt;option value="divide"&gt;Dividir&lt;/option&gt;
+            &lt;/select&gt;
+            &lt;button onclick="calculate()"&gt;Calcular&lt;/button&gt;
+            &lt;p id="calculation-output"&gt;&lt;/p&gt;</code></pre>
+              <pre class="code-block"><code class="language-javascript">function calculate() {
+              const num1 = Number.parseFloat(document.getElementById('num1').value);
+              const num2 = Number.parseFloat(document.getElementById('num2').value);
+              const operation = document.getElementById('operation').value;
+              const output = document.getElementById('calculation-output');
+            
+              if (Number.isNaN(num1) || Number.isNaN(num2)) {
+                output.innerHTML = 'Por favor, digite números válidos.';
+                return;
+              }
+            
+              let result;
+              switch (operation) {
+                case 'add':
+                  result = num1 + num2;
+                  output.innerHTML = `${num1} + ${num2} = <strong>${result}</strong>`;
+                  break;
+                case 'subtract':
+                  result = num1 - num2;
+                  output.innerHTML = `${num1} - ${num2} = <strong>${result}</strong>`;
+                  break;
+                case 'multiply':
+                  result = num1 * num2;
+                  output.innerHTML = `${num1} × ${num2} = <strong>${result}</strong>`;
+                  break;
+                case 'divide':
+                  if (num2 === 0) {
+                    output.innerHTML = 'Erro: Divisão por zero!';
+                    return;
+                  }
+                  result = num1 / num2;
+                  output.innerHTML = `${num1} ÷ ${num2} = <strong>${result}</strong>`;
+                  break;
+                default:
+                  output.innerHTML = 'Operação desconhecida.';
+              }
+            }</code></pre>
+            </div>
+            </div>
         </section>
 
         <section id="events" class="section">
@@ -433,33 +590,48 @@ let quociente = dividir(10, 2); // 5
           <p>Eventos são ações que ocorrem no navegador, como cliques, movimentos do mouse, pressionamento de teclas,
             etc. Podemos usar JavaScript para responder a esses eventos.</p>
 
-          <pre class="code-block"><code class="language-javascript">// Métodos para adicionar eventos
-
-// 1. Atributo HTML
-// &lt;button onclick="minhaFuncao()"&gt;Clique&lt;/button&gt;
-
-// 2. Propriedade do elemento
-let btn = document.getElementById("meuBotao");
-btn.onclick = function() {
-alert("Botão clicado!");
-};
-
-// 3. addEventListener (recomendado)
-btn.addEventListener("click", function() {
-alert("Botão clicado!");
-});
-</code></pre>
-
-          <div class="interactive-demo">
-            <h4>Área de Eventos:</h4>
-            <div class="demo-controls">
-              <button id="click-btn">Clique Aqui</button>
-              <input type="text" id="key-input" placeholder="Digite algo aqui">
-              <div id="mouse-area" style="padding: 20px; background-color: #eee; margin-top: 10px; text-align: center;">
-                Passe o mouse aqui
-              </div>
+          <div class="demo-example">
+            <div class="interactive-demo">
+              <h4>Área de Eventos:</h4>
+              <div class="demo-controls">
+                <button id="click-btn">Clique Aqui</button>
+                <input type="text" id="key-input" placeholder="Digite algo aqui">
+                <div id="mouse-area">Passe o mouse aqui</div>
+                </div>
+                <p id="events-output"></p>
+                </div>
+            <div class="demo-code">
+              <h5>Código do Demo</h5>
+              <pre class="code-block"><code class="language-markup">&lt;button id="click-btn"&gt;Clique Aqui&lt;/button&gt;
+            &lt;input type="text" id="key-input" placeholder="Digite algo aqui"&gt;
+            &lt;div id="mouse-area"&gt;Passe o mouse aqui&lt;/div&gt;
+            &lt;p id="events-output"&gt;&lt;/p&gt;</code></pre>
+              <pre class="code-block"><code class="language-javascript">document.addEventListener('DOMContentLoaded', () => {
+              const clickBtn = document.getElementById('click-btn');
+              const keyInput = document.getElementById('key-input');
+              const mouseArea = document.getElementById('mouse-area');
+              const output = document.getElementById('events-output');
+            
+              clickBtn.addEventListener('click', () => {
+                output.innerHTML = 'Botão foi clicado!';
+              });
+            
+              keyInput.addEventListener('input', (event) => {
+                output.innerHTML = `Você digitou: ${event.target.value}`;
+              });
+            
+              mouseArea.addEventListener('mouseover', () => {
+                mouseArea.style.backgroundColor = '#d4edda';
+                output.innerHTML = 'Mouse sobre a área!';
+              });
+            
+              mouseArea.addEventListener('mouseout', () => {
+                mouseArea.style.backgroundColor = '#eee';
+                output.innerHTML = 'Mouse saiu da área!';
+              });
+            });
+            </code></pre>
             </div>
-            <p id="events-output"></p>
           </div>
         </section>
 
@@ -468,38 +640,56 @@ alert("Botão clicado!");
           <p>O DOM é uma representação em forma de árvore da estrutura HTML de uma página. JavaScript pode manipular o
             DOM para alterar conteúdo, estilo e estrutura da página.</p>
 
-          <pre class="code-block"><code class="language-javascript">// Selecionando elementos
-          let titulo = document.getElementById("meuTitulo");
-          let paragrafos = document.getElementsByClassName("meuParagrafo");
-          let elementos = document.querySelectorAll("div.minhaClasse");
-
-// Alterando conteúdo
-titulo.innerHTML = "Novo Título";
-titulo.textContent = "Outro Título";
-
-// Alterando estilos
-titulo.style.color = "red";
-titulo.style.fontSize = "24px";
-
-// Adicionando/removendo classes
-titulo.classList.add("destaque");
-titulo.classList.remove("antigo");
-
-// Criando elementos
-let novoParagrafo = document.createElement("p");
-novoParagrafo.textContent = "Este é um novo parágrafo";
-document.body.appendChild(novoParagrafo);
-</code></pre>
-
-          <div class="interactive-demo">
-            <h4>Manipulação do DOM:</h4>
-            <div class="demo-controls">
-              <input type="text" id="dom-input" placeholder="Digite um texto">
-              <button onclick="addElement()">Adicionar Elemento</button>
-              <button onclick="changeColor()">Mudar Cor</button>
-              <button onclick="clearElements()">Limpar</button>
+          <div class="demo-example">
+            <div class="interactive-demo">
+              <h4>Manipulação do DOM:</h4>
+              <div class="demo-controls">
+                <input type="text" id="dom-input" placeholder="Digite um texto">
+                <button onclick="addElement()">Adicionar Elemento</button>
+                <button onclick="changeColor()">Mudar Cor</button>
+                <button onclick="clearElements()">Limpar</button>
+              </div>
+              <div id="dom-output"></div>
             </div>
-            <div id="dom-output" style="margin-top: 10px; padding: 10px; border: 1px dashed #ccc; min-height: 50px;">
+            <div class="demo-code">
+              <h5>Código do Demo</h5>
+              <pre class="code-block"><code class="language-markup">&lt;input type="text" id="dom-input" placeholder="Digite um texto"&gt;
+            &lt;button onclick="addElement()"&gt;Adicionar Elemento&lt;/button&gt;
+            &lt;button onclick="changeColor()"&gt;Mudar Cor&lt;/button&gt;
+            &lt;button onclick="clearElements()"&gt;Limpar&lt;/button&gt;
+            &lt;div id="dom-output"&gt;&lt;/div&gt;</code></pre>
+              <pre class="code-block"><code class="language-javascript">function addElement() {
+              const input = document.getElementById('dom-input');
+              const output = document.getElementById('dom-output');
+              const value = input.value.trim();
+            
+              if (value === '') {
+                alert('Por favor, digite algum texto.');
+                return;
+              }
+            
+              const newElement = document.createElement('div');
+              newElement.textContent = value;
+              newElement.classList.add('dom-item');
+            
+              output.appendChild(newElement);
+              input.value = '';
+            }
+            
+            function changeColor() {
+              const output = document.getElementById('dom-output');
+              const elements = output.querySelectorAll('.dom-item');
+              const colors = ['#e8f4fd', '#fff3cd', '#d1ecf1', '#d4edda', '#f8d7da'];
+            
+              elements.forEach((element, index) => {
+                element.style.backgroundColor = colors[index % colors.length];
+              });
+            }
+            
+            function clearElements() {
+              document.getElementById('dom-output').innerHTML = '';
+            }
+            </code></pre>
             </div>
           </div>
         </section>
@@ -513,19 +703,19 @@ document.body.appendChild(novoParagrafo);
             e escreverem, e para máquinas parsearem e gerarem.</p>
 
           <pre class="code-block"><code class="language-json">{
-            "usuarios": [
-              {
-                "id": 1,
-                "nome": "João Silva",
-                "email": "joao@exemplo.com"
-              },
-              {
-                "id": 2,
-                "nome": "Maria Santos",
-                "email": "maria@exemplo.com"
-              }
-            ]
-          }
+  "usuarios": [
+  {
+  "id": 1,
+  "nome": "João Silva",
+  "email": "joao@exemplo.com"
+  },
+  {
+  "id": 2,
+  "nome": "Maria Santos",
+  "email": "maria@exemplo.com"
+  }
+  ]
+  }
 </code></pre>
 
           <h3>Como usar o fetch()</h3>
@@ -533,24 +723,24 @@ document.body.appendChild(novoParagrafo);
             poderosa e flexível ao XMLHttpRequest.</p>
 
           <pre class="code-block"><code class="language-javascript">// Requisição GET simples
-          fetch('https://api.exemplo.com/usuarios')
-            .then(response => response.json())
-            .then(data => console.log(data))
-            .catch(error => console.error('Erro:', error));
+fetch('https://api.exemplo.com/usuarios')
+  .then((response) => response.json())
+  .then((data) => console.log(data))
+  .catch((error) => console.error('Erro:', error));
 
 // Requisição POST
 fetch('https://api.exemplo.com/usuarios', {
-method: 'POST',
-headers: {
-'Content-Type': 'application/json'
-},
-body: JSON.stringify({
-nome: 'Novo Usuário',
-email: 'novo@exemplo.com'
+  method: 'POST',
+  headers: {
+  'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+  nome: 'Novo Usuário',
+  email: 'novo@exemplo.com'
+  })
 })
-})
-.then(response => response.json())
-.then(data => console.log(data));
+  .then((response) => response.json())
+  .then((data) => console.log(data));
 </code></pre>
         </section>
 
@@ -558,18 +748,58 @@ email: 'novo@exemplo.com'
           <h2>Exemplo prático com API pública</h2>
           <p>Vamos usar a JSONPlaceholder API, uma API REST fake para testes e prototipagem.</p>
 
-          <div class="interactive-demo">
-            <h4>Buscar Dados da API:</h4>
-            <div class="demo-controls">
-              <select id="api-endpoint">
-                <option value="posts">Posts</option>
-                <option value="comments">Comentários</option>
-                <option value="users">Usuários</option>
-              </select>
-              <button onclick="fetchData()">Buscar Dados</button>
-              <button onclick="clearApiResult()">Limpar</button>
+          <div class="demo-example">
+            <div class="interactive-demo">
+              <h4>Buscar Dados da API:</h4>
+              <div class="demo-controls">
+                <select id="api-endpoint">
+                  <option value="posts">Posts</option>
+                  <option value="comments">Comentários</option>
+                  <option value="users">Usuários</option>
+                </select>
+                <button onclick="fetchData()">Buscar Dados</button>
+                <button onclick="clearApiResult()">Limpar</button>
+              </div>
+              <div id="api-result" class="api-result"></div>
             </div>
-            <div id="api-result" class="api-result"></div>
+            <div class="demo-code">
+              <h5>Código do Demo</h5>
+              <pre class="code-block"><code class="language-markup">&lt;select id="api-endpoint"&gt;
+              &lt;option value="posts"&gt;Posts&lt;/option&gt;
+              &lt;option value="comments"&gt;Comentários&lt;/option&gt;
+              &lt;option value="users"&gt;Usuários&lt;/option&gt;
+            &lt;/select&gt;
+            &lt;button onclick="fetchData()"&gt;Buscar Dados&lt;/button&gt;
+            &lt;button onclick="clearApiResult()"&gt;Limpar&lt;/button&gt;
+            &lt;div id="api-result" class="api-result"&gt;&lt;/div&gt;</code></pre>
+              <pre class="code-block"><code class="language-javascript">function fetchData() {
+              const endpoint = document.getElementById('api-endpoint').value;
+              const apiUrl = `https://jsonplaceholder.typicode.com/${endpoint}`;
+              const resultDiv = document.getElementById('api-result');
+            
+              resultDiv.innerHTML = 'Carregando...';
+            
+              fetch(apiUrl)
+                .then((response) => {
+                  if (!response.ok) {
+                    throw new Error('Erro na requisição: ' + response.status);
+                  }
+                  return response.json();
+                })
+                .then((data) => {
+                  const limitedData = data.slice(0, 5);
+                  resultDiv.innerHTML = `<pre>${JSON.stringify(limitedData, null, 2)}</pre>`;
+              })
+              .catch((error) => {
+              resultDiv.innerHTML = `Erro: ${error.message}`;
+              });
+              }
+            
+              function clearApiResult() {
+              document.getElementById('api-result').innerHTML = '';
+              }
+              </code></pre>
+            </div>
           </div>
         </section>
       </main>
@@ -585,55 +815,55 @@ email: 'novo@exemplo.com'
   <script>
     // Demonstração de Variáveis
     function demonstrateVariables() {
-      let output = document.getElementById('variables-output');
+      const output = document.getElementById('variables-output');
 
-      // Declaração de variáveis
-      var varExemplo = "Variável com var";
-      let letExemplo = "Variável com let";
-      const constExemplo = "Variável com const";
+  var varExemplo = "Vari     "Variável com     iável com const";
 
-      // Tentativa de reatribuição
-      letExemplo = "Novo valor para let";
-      // constExemplo = "Tentativa de mudar const"; // Isso causaria erro
+  letExemplo = "Novo valor para let";
 
       output.innerHTML = `
-                <p><strong>var:</strong> ${varExemplo}</p>
-                <p><strong>let:</strong> ${letExemplo}</p>
-                <p><strong>const:</strong> ${constExemplo}</p>
-                <p><em>Nota: Tentar reatribuir uma constante causaria um erro.</em></p>
-            `;
+        <p><strong>var:</strong> ${varExe          </strong> ${l          >const:</strong> ${constExemplo}</p>
+        <p><em>Nota: Tentar reatrio          nte causaria um erro.</em></p>
+      `.trim();
     }
 
     // Verificar Tipo de Dado
     function checkDataType() {
-      let input = document.getElementById('data-type-input').value;
-      let output = document.getElementById('data-type-output');
+      const rawValu          = document.getElementById('data-type-          put').value;
+      const value = rawV          ue.trim();
+      const output = document.get          ementById('data-type-output');
 
-      // Tentar converter para número se possível
-      if (!isNaN(input) && input.trim() !== '') {
-        let num = Number(input);
-        output.innerHTML = `<strong>${input}</strong> é do tipo: <span style="color: #e74c3c;">${typeof num}</span>`;
-      } else if (input.toLowerCase() === 'true' || input.toLowerCase() === 'false') {
-        let bool = input.toLowerCase() === 'true';
-        output.innerHTML = `<strong>${input}</strong> é do tipo: <span style="color: #e74c3c;">${typeof bool}</span>`;
-      } else if (input.trim() === '') {
-        output.innerHTML = `Entrada vazia é do tipo: <span style="color: #e74c3c;">${typeof input}</span>`;
-      } else {
-        output.innerHTML = `<strong>${input}</strong> é do tipo: <span style="color: #e74c3c;">${typeof input}</span>`;
+               alue === '') {
+        output.innerHTML = 'Entrada vazia é do tipo: <span style="color: #e74c3c;">string</span>';
+        return;
       }
+
+      if (!Number.isNaN(Number(value))) {
+        const numberValue = Number(value);
+        output.innerHTML = `<strong>${value}</stro        é d        po: <span style="color: #e        c;">${typeof numberValue}</          ;
+        return;
+      }
+
+      const lowered = value.toLowerCase();
+      if (lowered === 'true' || lowered === 'false') {
+        const bool = lowered === 'true';
+        output.innerHTML = `<strong>${value}</strong> é do tipo: <span style="color: #e74c3c;">${typeof bool}</span>`;
+        return;
+      }
+
+      output.innerHTML = `<strong>${value}</strong> é do tipo: <span style="color: #e74c3c;">${typeof value}</span>`;
     }
 
     // Verificar Idade
     function checkAge() {
-      let age = document.getElementById('age-input').value;
-      let output = document.getElementById('age-output');
+      const input = document.getElementById('age-input');
+      const output = document.getElementById('age-output');
+      const age = Number.parseInt(input.value, 10);
 
-      if (age === '') {
-        output.innerHTML = 'Por favor, digite uma idade.';
+      if (Number.isNaN(age)) {
+        output.innerHTML = 'Por favor, digite uma idade válida.';
         return;
       }
-
-      age = parseInt(age);
 
       if (age < 0) {
         output.innerHTML = 'Idade não pode ser negativa.';
@@ -650,12 +880,12 @@ email: 'novo@exemplo.com'
 
     // Calculadora
     function calculate() {
-      let num1 = parseFloat(document.getElementById('num1').value);
-      let num2 = parseFloat(document.getElementById('num2').value);
-      let operation = document.getElementById('operation').value;
-      let output = document.getElementById('calculation-output');
+      const num1 = Number.parseFloat(document.getElementById('num1').value);
+      const num2 = Number.parseFloat(document.getElementById('num2').value);
+      const operation = document.getElementById('operation').value;
+      const output = document.getElementById('calculation-output');
 
-      if (isNaN(num1) || isNaN(num2)) {
+      if (Number.isNaN(num1) || Number.isNaN(num2)) {
         output.innerHTML = 'Por favor, digite números válidos.';
         return;
       }
@@ -677,69 +907,68 @@ email: 'novo@exemplo.com'
         case 'divide':
           if (num2 === 0) {
             output.innerHTML = 'Erro: Divisão por zero!';
-          } else {
-            result = num1 / num2;
-            output.innerHTML = `${num1} ÷ ${num2} = <strong>${result}</strong>`;
+            return;
           }
+          result = num1 / num2;
+          output.innerHTML = `${num1} ÷ ${num2} = <strong>${result}</strong>`;
           break;
+        default:
+          output.innerHTML = 'Operação desconhecida.';
       }
     }
 
     // Eventos
-    document.addEventListener('DOMContentLoaded', function () {
-      // Evento de clique
-      document.getElementById('click-btn').addEventListener('click', function () {
-        document.getElementById('events-output').innerHTML = 'Botão foi clicado!';
-      });
-
-      // Evento de digitação
-      document.getElementById('key-input').addEventListener('input', function (e) {
-        document.getElementById('events-output').innerHTML = `Você digitou: ${e.target.value}`;
-      });
-
-      // Eventos de mouse
+    document.addEventListener('DOMContentLoaded', () => {
+      const clickBtn = document.getElementById('click-btn');
+      const keyInput = document.getElementById('key-input');
       const mouseArea = document.getElementById('mouse-area');
-      mouseArea.addEventListener('mouseover', function () {
-        this.style.backgroundColor = '#d4edda';
-        document.getElementById('events-output').innerHTML = 'Mouse sobre a área!';
+      const output = document.getElementById('events-output');
+
+      clickBtn.addEventListener('click', () => {
+        output.innerHTML = 'Botão foi clicado!';
       });
 
-      mouseArea.addEventListener('mouseout', function () {
-        this.style.backgroundColor = '#eee';
-        document.getElementById('events-output').innerHTML = 'Mouse saiu da área!';
+      keyInp            entListen              , (event) => {
+        output.innerHTML = `Vo          it        ${e        .target.value}`;
+      });
+
+      mouseArea.addEventListener('mouseov          ) => {
+        mouseArea.style.backgroundColor = '#d4ed                 output.innerHTML = 'Mouse sobre a área!';
+      });
+
+      mouseArea.addEventListener('mouseout', () => {
+        mouseArea.style.backgroundColor = '#eee';
+        output.innerHTML = 'Mouse saiu da área!';
       });
     });
 
     // Manipulação do DOM
     function addElement() {
-      let input = document.getElementById('dom-input').value;
-      let output = document.getElementById('dom-output');
+      const input = document.getElementById('dom-input');
+      const output = document.getElementById('dom-output');
+      const value = input.value.trim();
 
-      if (input.trim() === '') {
+      if (value === '') {
         alert('Por favor, digite algum texto.');
         return;
       }
 
-      let newElement = document.createElement('div');
-      newElement.textContent = input;
-      newElement.style.padding = '5px';
-      newElement.style.margin = '5px 0';
-      newElement.style.backgroundColor = '#f8f9fa';
-      newElement.style.borderRadius = '3px';
+      const newElement = document.createElement('div');
+      newElement.textContent = value;
+      newElement.classList.add('dom-item');
 
       output.appendChild(newElement);
-      document.getElementById('dom-input').value = '';
+      input.value = '';
     }
 
     function changeColor() {
-      let output = document.getElementById('dom-output');
-      let elements = output.getElementsByTagName('div');
-
+              t output = document.getE          ById('dom-output');
+      const elements = output.qu          ectorAll('.dom-item');
       const colors = ['#e8f4fd', '#fff3cd', '#d1ecf1', '#d4edda', '#f8d7da'];
 
-      for (let i = 0; i < elements.length; i++) {
-        elements[i].style.backgroundColor = colors[i % colors.length];
-      }
+      elements.forEach((element, index) => {
+        element.style.backgroundColor = colors[index % colors.length];
+      });
     }
 
     function clearElements() {
@@ -755,18 +984,17 @@ email: 'novo@exemplo.com'
       resultDiv.innerHTML = 'Carregando...';
 
       fetch(apiUrl)
-        .then(response => {
+        .then((response) => {
           if (!response.ok) {
             throw new Error('Erro na requisição: ' + response.status);
           }
           return response.json();
         })
-        .then(data => {
-          // Limitar a exibição para os primeiros 5 itens
+        .then((dat          > {
           const limitedData = data.slice(0, 5);
           resultDiv.innerHTML = `<pre>${JSON.stringify(limitedData, null, 2)}</pre>`;
         })
-        .catch(error => {
+        .catch((error) => {
           resultDiv.innerHTML = `Erro: ${error.message}`;
         });
     }

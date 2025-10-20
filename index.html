@@ -343,9 +343,33 @@ function saudacao() { alert('Olá Mundo!'); }
 
         <section id="variables" class="section">
           <h2>Variáveis</h2>
-          <p>Variáveis são containers para armazenar dados. Em JavaScript, podemos declarar variáveis usando <span
-              class="highlight">var</span>, <span class="highlight">let</span> ou <span class="highlight">const</span>.
+          <p>Variáveis são recipientes nomeados que armazenam valores em memória — números, texto, booleanos, objetos, arrays e
+            muito mais.
+            Entender o escopo (onde a variável está disponível) e o tempo de vida (quando ela existe) é essencial para escrever
+            código
+            previsível e sem bugs.</p>
+          
+          <p><strong>Declarações comuns</strong>:
+          <ul>
+            <li><code>const</code> — declara uma referência que não será reatribuída. Use por padrão quando o identificador não
+              precisa mudar.</li>
+            <li><code>let</code> — declara uma variável cujo valor pode mudar. Use quando for necessário reatribuir.</li>
+            <li><code>var</code> — sintaxe antiga; tem escopo por função e hoisting que pode confundir. Evite em código moderno.
+            </li>
+          </ul>
           </p>
+
+          <p><strong>Boas práticas</strong>:
+          <ol>
+            <li>Prefira <code>const</code> por padrão. Só use <code>let</code> quando precisar reatribuir.</li>
+            <li>Use nomes descritivos e em inglês ou no idioma do projeto (ex.: <code>totalPrice</code>, <code>userName</code>).
+            </li>
+            <li>Evite variáveis globais — encapsule em funções ou módulos para reduzir efeitos colaterais.</li>
+          </ol>
+          </p>
+          
+          <p>Exemplo rápido: <code>const maxRetries = 3;</code> torna a intenção clara: esse valor não deve mudar durante a
+            execução.</p>
 
           <div class="demo-example">
             <div class="interactive-demo">
@@ -381,8 +405,37 @@ function saudacao() { alert('Olá Mundo!'); }
 
         <section id="data-types" class="section">
           <h2>Tipos de Dados</h2>
-          <p>JavaScript tem tipos de dados dinâmicos, o que significa que uma mesma variável pode conter diferentes
-            tipos de dados.</p>
+          <p>JavaScript possui tipagem dinâmica: uma variável pode conter valores de diferentes tipos ao longo do tempo. Isso traz
+            flexibilidade, mas também exige atenção para evitar comportamentos inesperados causados por coerção de tipos.</p>
+          
+          <p><strong>Tipos primitivos</strong>:
+          <ul>
+            <li><code>number</code> — inteiros e floats (ex.: <code>42</code>, <code>3.14</code>).</li>
+            <li><code>string</code> — texto delimitado por aspas (ex.: <code>'Olá'</code>).</li>
+            <li><code>boolean</code> — <code>true</code> ou <code>false</code>.</li>
+            <li><code>null</code> — valor intencionalmente vazio.</li>
+            <li><code>undefined</code> — variável declarada sem valor.</li>
+            <li><code>symbol</code> — identificadores únicos (usados raramente).</li>
+          </ul>
+          </p>
+          
+          <p><strong>Objetos e arrays</strong>: objetos (<code>{}</code>) e arrays (<code>[]</code>) são estruturas de referência
+            que podem
+            armazenar múltiplos valores. Eles têm comportamento de referência — ao atribuir um objeto a outra variável, ambos
+            apontam
+            para a mesma referência.</p>
+          
+          <p><strong>Dicas práticas</strong>:
+          <ol>
+            <li>Use <code>typeof</code> para inspeção rápida, mas lembre-se que <code>typeof null === 'object'</code>
+              (peculiaridade histórica).</li>
+            <li>Quando precisar de valores imutáveis, use cópias defensivas (<code>Array.slice()</code>, spread syntax) para
+              evitar mutações
+              não intencionais.</li>
+            <li>Para validação mais robusta, considere bibliotecas como <code>zod</code> ou <code>yup</code> em projetos maiores.
+            </li>
+          </ol>
+          </p>
 
           <div class="demo-example">
             <div class="interactive-demo">
@@ -429,8 +482,33 @@ function saudacao() { alert('Olá Mundo!'); }
 
         <section id="operators" class="section">
           <h2>Operadores e Condicionais</h2>
-          <p>Operadores permitem realizar operações em variáveis e valores. Condicionais permitem executar código
-            baseado em condições.</p>
+          <p>Operadores são os blocos básicos para manipular e comparar valores. Saber quando usar cada tipo evita bugs e melhora
+            a legibilidade.</p>
+          
+          <p><strong>Tipos de operadores</strong>:
+          <ul>
+            <li><strong>Aritméticos</strong>: <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>%</code>
+              (resto).</li>
+            <li><strong>Comparação</strong>: <code>===</code> (igualdade estrita), <code>!==</code>, <code>&lt;</code>,
+              <code>&gt;</code>.
+              Use <code>===</code> sempre que possível para evitar coerção automática.</li>
+            <li><strong>Lógicos</strong>: <code>&&</code> (e), <code>||</code> (ou), <code>!</code> (negador) — úteis para
+              combinar condições.</li>
+          </ul>
+          </p>
+          
+          <p><strong>Condicionais</strong>:
+          <ul>
+            <li><code>if / else</code> — forma direta de executar código condicionalmente.</li>
+            <li><code>switch</code> — útil para várias comparações de igualdade com um mesmo valor.</li>
+            <li>Operador ternário (<code>condicao ? valorA : valorB</code>) — bom para expressões simples, mas evite complexidade
+              dentro de ternários.</li>
+          </ul>
+          </p>
+          
+          <p><strong>Exemplo de boa prática</strong>: verifique tipos quando comparar valores que podem vir de fontes externas
+            (inputs, APIs).
+            Evite confiar em coerção implícita — transforme/normalize os dados antes de comparar.</p>
 
           <h3>Operadores:</h3>
           <pre class="code-block"><code class="language-javascript">// Aritméticos
@@ -504,7 +582,29 @@ let mensagem = (hora < 18) ? "Bom dia!" : "Boa noite!";
 
         <section id="functions" class="section">
           <h2>Funções</h2>
-          <p>Funções são blocos de código reutilizáveis que executam uma tarefa específica.</p>
+          <p>Funções são unidades de comportamento: encapsulam código para que possamos reutilizá-lo, testá-lo e organizá-lo
+            melhor.
+            Dominar funções é essencial para programar de forma modular.</p>
+          
+          <p><strong>Formas comuns</strong>:
+          <ul>
+            <li>Declaração de função: <code>function somar(a, b) { return a + b; }</code></li>
+            <li>Expressão de função: <code>const fn = function() { }</code></li>
+            <li>Arrow function: <code>const fn = (a) =&gt; a * 2</code> — sintaxe concisa e comportamento de <code>this</code>
+              diferente.</li>
+          </ul>
+          </p>
+          
+          <p><strong>Boas práticas</strong>:
+          <ol>
+            <li>Mantenha funções curtas e focadas (uma responsabilidade por função).</li>
+            <li>Evite efeitos colaterais (alterar variáveis externas) quando possível — prefira retornar valores.</li>
+            <li>Documente os parâmetros e o valor retornado, especialmente em funções que serão reutilizadas.</li>
+          </ol>
+          </p>
+          
+          <p>Exemplo: <code>const formatPrice = (value) =&gt; Number(value).toFixed(2);</code> — clara intenção, entrada e saída
+            previsíveis.</p>
 
           <div class="demo-example">
             <div class="interactive-demo">
@@ -577,8 +677,30 @@ let mensagem = (hora < 18) ? "Bom dia!" : "Boa noite!";
 
         <section id="events" class="section">
           <h2>Eventos</h2>
-          <p>Eventos são ações que ocorrem no navegador, como cliques, movimentos do mouse, pressionamento de teclas,
-            etc. Podemos usar JavaScript para responder a esses eventos.</p>
+          <p>Eventos são como mensagens sobre ações que ocorrem na página: cliques, toques, envio de formulários, movimentos do
+            mouse,
+            teclas pressionadas, entre outros. Eles permitem que o JavaScript reaja e atualize a interface em tempo real.</p>
+          
+          <p><strong>Como funciona</strong>:
+          <ol>
+            <li>Você registra um handler (função) para um tipo de evento em um elemento usando
+              <code>element.addEventListener('click', handler)</code>.</li>
+            <li>Quando o evento acontece, o handler é chamado com um objeto <code>event</code> com dados úteis (p.ex.:
+              <code>event.target</code>).</li>
+            <li>Você pode cancelar comportamentos padrão com <code>event.preventDefault()</code> (útil em formulários) e
+              interromper a propagação
+              com <code>event.stopPropagation()</code> quando necessário.</li>
+          </ol>
+          </p>
+          
+          <p><strong>Dicas didáticas</strong>:
+          <ul>
+            <li>Delegação de eventos: em vez de adicionar um listener a dezenas de elementos, adicione um ao elemento pai e
+              verifique <code>event.target</code>.
+              Isso melhora desempenho e simplifica gerenciamento dinâmico de elementos.</li>
+            <li>Evite lógica pesada dentro de handlers — desacople em funções pequenas e teste-as isoladamente.</li>
+          </ul>
+          </p>
 
           <div class="demo-example">
             <div class="interactive-demo">
@@ -627,8 +749,30 @@ let mensagem = (hora < 18) ? "Bom dia!" : "Boa noite!";
 
         <section id="dom" class="section">
           <h2>DOM (Document Object Model)</h2>
-          <p>O DOM é uma representação em forma de árvore da estrutura HTML de uma página. JavaScript pode manipular o
-            DOM para alterar conteúdo, estilo e estrutura da página.</p>
+          <p>O DOM é a representação em árvore do documento HTML que o navegador mantém em memória. Cada elemento HTML vira um nó
+            que pode ser consultado e manipulado com JavaScript — isso permite criar interfaces dinâmicas.</p>
+          
+          <p><strong>Operações básicas</strong>:
+          <ul>
+            <li>Selecionar elementos: <code>document.querySelector</code>, <code>getElementById</code>.</li>
+            <li>Ler/alterar conteúdo: <code>textContent</code> (mais seguro) e <code>innerHTML</code> (permite HTML, cuidado com
+              XSS).</li>
+            <li>Mudar atributos e classes: <code>setAttribute</code>, <code>classList.add/remove</code>.</li>
+            <li>Criar/remover nós: <code>createElement</code>, <code>appendChild</code>, <code>remove</code>.</li>
+          </ul>
+          </p>
+          
+          <p><strong>Performance e segurança</strong>:
+          <ol>
+            <li>Minimize reflows: agrupe atualizações ao DOM e faça manipulações em fragmentos (<code>DocumentFragment</code>)
+              quando gerar muitos nós.</li>
+            <li>Evite <code>innerHTML</code> com dados não confiáveis — sanitize entradas para prevenir XSS.</li>
+          </ol>
+          </p>
+          
+          <p>Exercício prático: crie um formulário que insere itens em uma lista; use <code>preventDefault()</code> para evitar o
+            reload
+            e <code>appendChild</code> para adicionar elementos dinamicamente.</p>
 
           <div class="demo-example">
             <div class="interactive-demo">
@@ -687,30 +831,55 @@ let mensagem = (hora < 18) ? "Bom dia!" : "Boa noite!";
         <section id="apis" class="section">
           <h2>Interação com APIs e Fetch</h2>
 
-          <h3>O que é uma API e JSON</h3>
-          <p>API (Application Programming Interface) é um conjunto de regras que permite que diferentes softwares se
-            comuniquem. JSON (JavaScript Object Notation) é um formato leve de troca de dados, fácil para humanos lerem
-            e escreverem, e para máquinas parsearem e gerarem.</p>
+          <h3>O que é uma API e por que JSON é importante</h3>
+          <p>APIs são contratos que permitem que sistemas conversem: um servidor expõe endpoints que retornam dados (por exemplo,
+            usuários,
+            posts, etc.). JSON é o formato padrão porque representa objetos de forma simples e é fácil de converter para
+            estruturas JavaScript.</p>
+          
+          <p><strong>Operações comuns com APIs</strong>:
+          <ul>
+            <li><strong>GET</strong> — busca recursos;</li>
+            <li><strong>POST</strong> — envia dados para criar recursos;</li>
+            <li><strong>PUT/PATCH</strong> — atualiza recursos existentes;</li>
+            <li><strong>DELETE</strong> — remove recursos.</li>
+          </ul>
+          </p>
+          
+          <p><strong>Boas práticas ao consumir APIs</strong>:
+          <ol>
+            <li>Mostre um estado de carregamento durante requisições para melhorar a experiência do usuário.</li>
+            <li>Trate códigos de erro HTTP (4xx/5xx) e exiba mensagens úteis.</li>
+            <li>Use <code>try/catch</code> com <code>async/await</code> para lidar com erros de rede e parsing.</li>
+            <li>Ao enviar dados em JSON, inclua o cabeçalho <code>Content-Type: application/json</code> e serialize com
+              <code>JSON.stringify</code>.</li>
+          </ol>
+          </p>
 
           <pre class="code-block"><code class="language-json">{
   "usuarios": [
-  {
-  "id": 1,
-  "nome": "João Silva",
-  "email": "joao@exemplo.com"
-  },
-  {
-  "id": 2,
-  "nome": "Maria Santos",
-  "email": "maria@exemplo.com"
-  }
+    { "id": 1, "nome": "João Silva", "email": "joao@exemplo.com" },
+    { "id": 2, "nome": "Maria Santos", "email": "maria@exemplo.com" }
   ]
-  }
+}
 </code></pre>
 
-          <h3>Como usar o fetch()</h3>
-          <p>A API Fetch fornece uma interface para buscar recursos (incluindo através da rede). É uma alternativa mais
-            poderosa e flexível ao XMLHttpRequest.</p>
+          <h3>Usando <code>fetch()</code> na prática</h3>
+          <p>Exemplo com <code>async/await</code> (mais legível):</p>
+          <pre class="code-block"><code class="language-javascript">async function loadData() {
+            try {
+              const res = await fetch('https://jsonplaceholder.typicode.com/posts');
+              if (!res.ok) throw new Error('Erro: ' + res.status);
+              const data = await res.json();
+              console.log(data);
+            } catch (err) {
+              console.error(err);
+            }
+          }</code></pre>
+          
+          <p>Resumo: <code>fetch()</code> facilita requisições HTTP, mas você precisa tratar respostas, erros e estados de
+            carregamento
+            para construir interfaces robustas.</p>
 
           <pre class="code-block"><code class="language-javascript">// Requisição GET simples
 fetch('https://api.exemplo.com/usuarios')
